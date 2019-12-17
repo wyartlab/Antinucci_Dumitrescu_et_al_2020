@@ -5,7 +5,7 @@ Created on Tue Jun 11 14:32:17 2019
 
 @author: adna.dumitrescu
 
-Script opens abf file with current clamp data aquired during excitatory opsin stimulation. 
+Script opens abf file with current clamp data aquired during inhibitory opsin stimulation. 
 
 How the script works: 
 1. Asks user to provide a file path for the abf file to be analysed
@@ -631,10 +631,6 @@ else:
 V_deflection_LED_all = voltage_max_LED_all - voltage_baseline_LED 
 
 
- 
-
-
-    
 ### extract tau off value from steady to baseline
 
 

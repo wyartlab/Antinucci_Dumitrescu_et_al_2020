@@ -766,6 +766,7 @@ column_names = list(trace_data_master)
 
 ## make emty dataframe + column list 
 CC_excitatory_opsin_master = pd.DataFrame(columns = column_names) #transform into dataframe and use given index 
+
 ## save it as .csv
 CC_excitatory_opsin_master.to_csv('Analysis_output/CC_excitatory_opsin_master.csv', header = True)
 """

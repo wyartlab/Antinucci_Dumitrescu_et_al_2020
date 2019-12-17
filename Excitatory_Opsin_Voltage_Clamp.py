@@ -1,27 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-
 Created on Fri Apr 12 13:10:54 2019
-Finalised on Wed Apr 17 14:40:34 2019
-
-Script opens abf file with VC whole cell data during LED excitatory opsin stimulation. 
-
-Metadata: file name, date, experiment,  opsin type , LED wavelenght, I_baseline 
-Extract duration of every LED stim applied in ms plus corresponding power in mW/mm2. The later is extracted from the table specified in line: 186
-Use indexes of where LED is ON and extract corresponding current values + 100ms before LED ON and 1000ms after end of pulse. 
-During each pulse time window extract: 
-    max current response (taken from trace in which baseline has been substracted)
-    max duration of total current response (time between pulse on until current back to baseline)
-    opsin max response delay: time between LED ON and peak of opsin response 
-    tau off = which is calculated during a window starting at peak of response (min value) + 100ms. This was validated in clampfit as giving the best window during which to a monoexponential fit for all excitatory currents. 
-As well all LED_ON and corresponding current_response points are saved as separate array. 
-    
-Lines 303-3127 edit to change file saving options. As it is the data will be added as a new row in a .csv master sheet
-containing all responses, plus it will create an individual csv file. 
-
-
 @author: adna.dumitrescu
+
+Script opens abf file with voltage clamp data aquired during excitatory opsin stimulation. 
+
+How the script works: 
+1. Asks user to provide a file path for the abf file to be analysed
+2. Asks user for meta-data that cannot be automatically extracted from abf file (such as stimulation regime and cell type etc)
+3. Finds all points where the LED is ON and uses these time-bins to extract data from the trace in which current values are recorded. 
+4. Puts all extracted data in a single .csv file named after the trace
+5. Adds data as a new row to a master .csv file for the whole experiment 
+6. Outputs in line graphs showing cell response to LED stimulation
+
+Metadata collected: file name, date, experimenter, protocol type, opsin type, LED wavelenght, power and stimulation time.
+Data that is calculated by script: 
+Baseline current injection level: mean of points across first 100ms of the trace 
+Resting membrane voltage: mean of points across first 1000ms of the trace
+Maximum photocurrent response per each LED stimulation: maximum value within a time period between LED onset plus 1000ms.
+Photocurrent response activation time as time to peak photocurrent response from light onset in ms. 
+Photocurrent response deactivation time in ms: monoexponential fit from max value found during last 5ms of light stimulation + 500 ms. This time-window was empirically determined to match the same calculation done in Clampfit.
+Extracts raw current trace data points corresponding to LED stimulation
+Extracts raw LED trace data points corresponding to LED stimulation
+
 """
 
 import numpy as np
