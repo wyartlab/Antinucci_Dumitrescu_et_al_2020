@@ -59,7 +59,7 @@ file_name = abf.abfID ### extract filename
 protocol = abf.protocol
 
 ### select experimenter 
-### select experimenter 
+
 user_input = int(input('Which rig was used for this recording:   Rig 1 = 1   Rig 2 = 2\n'))
 
 experimenter_dict = { 
