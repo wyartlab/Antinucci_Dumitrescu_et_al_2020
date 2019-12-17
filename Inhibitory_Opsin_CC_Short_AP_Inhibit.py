@@ -136,7 +136,7 @@ LED_power_setup_dict = {
        7 : 'LED_543_50%',
        8 : 'LED_543_100%',
        9 : 'LED_575_50%' , 
-       10 : 'LED_575_100%' ,  
+       10 : 'LED_575_100%',  
        11 : 'LED_630_50%' , 
        12 : 'LED_630_100%' , 
         } #dictionary for all opsin types numbered according to potential user input 
@@ -243,7 +243,6 @@ Part 2: find if LED pulses have been applied
 LED_idx = (np.where(LED_trace > 0.18)) # index of values in LED trace where V values are over 0
 LED_array = np.asarray(LED_idx) #transform into an array for next step
 
-
 LED_idx_cons = consecutive(LED_array[0]) #find consecutive indexes where LED is ON and split into separate arrays --> each array would be 1 LED stim
 LED_idx_cons_df = pd.DataFrame(LED_idx_cons) #transform data into dataframe for easier processing below 
 LED_idx_cons_df_T = LED_idx_cons_df.T
@@ -321,10 +320,8 @@ spike_count_I_avg_per_pulse =  spike_count_I_total  / len(spike_per_I_only)
 total_I_pulses = len(I_only_idx_cons)
 
 #### difference between current pulses vs current + LED stim 
-
 spike_dif_on_avg = spike_count_I_avg_per_pulse - spike_count_I_LED_avg_per_pulse
 spike_inhibition_percent = (spike_dif_on_avg / spike_count_I_avg_per_pulse) * 100
-
 
 
 ####### determine power in mW/mm2 of max LED analog pulse V value
@@ -358,7 +355,7 @@ else:
 
 ### use LED max value extracted and the stimulation type to get absolute power value in mW/mm2
 LED_power_pulse =  LED_stim_power_table.loc[LED_index_value, LED_stim_type] ## index and extract mW/mm2 value of pulse based on V pulse value and type of stimulation 
-LED_power_pulse= round(LED_power_pulse,2 ) ## round up to 2 decimal values, can't do more since I have some 0.xx values 
+LED_power_pulse= round(LED_power_pulse,2) ## round up to 2 decimal values, can't do more since I have some 0.xx values 
 LED_power_pulse= pd.Series(LED_power_pulse.astype(str)) # transform to str 
 LED_power_pulse = LED_power_pulse.reset_index( drop = True)
 
@@ -366,7 +363,6 @@ LED_power_pulse = LED_power_pulse.reset_index( drop = True)
 time_points_plot = (np.arange(len(voltage_data_LED[0]))*abf.dataSecPerPoint) * 1000
 
 ###putting all data together to extract response values per trace 
-
 trace_data_LED = pd.DataFrame({'trace_number':file_name ,'date_time' : date_time, 'experimenter': experimenter, 'protocol' : protocol,  'cell_type': cell_type_selected, 'V_baseline': voltage_data_baseline, 'LED_wavelenght': LED_wavelength,   
 'LED_time_ms': LED_time, 'LED_power_mWmm': LED_power_pulse, 'total_I_only_pulses': total_I_pulses, 'Spike_I_stim_total': spike_count_I_total, 'Spike_I_avg': spike_count_I_avg_per_pulse, 'total_I_plus_LED_only_pulses':total_I_plus_LED_pulses, 'spike_I_and_LED_stim_total': spike_count_I_LED_total,  'spike_I_and_LED_stim_avg': spike_count_I_LED_avg_per_pulse, 'spike_diff_on_avg_I_vs_LED': spike_dif_on_avg, 'spike_inhibition_%': spike_inhibition_percent  } ,  index=[0])
 
@@ -379,7 +375,6 @@ data_final_df = trace_data_master ## date data_final array and transform into tr
 data_final_df.to_csv('Analysis_output/Single_Trace_data/CC_inhibition_short_stim/' + str(file_name) +'.csv', header = True) ## write file as individual csv file 
 
 ##### save data in master dataframe
-
 """
 To make am empty dataframe with correctly labelled columns for this particular analysis: 
 
@@ -391,6 +386,8 @@ CC_inhibitory_short_pulse = pd.DataFrame(columns = column_names) #transform into
 ## save it as .csv
 CC_inhibitory_short_pulse.to_csv('Analysis_output/CC_inhibitory_short_pulse.csv', header = True)
 """
+
+
 
 """
 ##open master sheet with data 
