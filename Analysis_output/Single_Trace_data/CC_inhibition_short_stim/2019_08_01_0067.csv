@@ -1,2 +1,0 @@
-,trace_number,date_time,experimenter,protocol,cell_type,V_baseline,LED_wavelenght,LED_time_ms,LED_power_mWmm,total_I_only_pulses,Spike_I_stim_total,Spike_I_avg,total_I_plus_LED_only_pulses,spike_I_and_LED_stim_total,spike_I_and_LED_stim_avg,spike_diff_on_avg_I_vs_LED,spike_inhibition_%
-0,2019_08_01_0067,2019-08-01 16:22:20.590,Rig 1,C:\Users\a.administrateur\Desktop\Adna prot\opsin test\inhibitory opsin\8 CC_520_Single Spike + Light pulse,GtACR1,-62.356174,520,5.0,2.91,81,162,2.0,19,4,0.21052631578947367,1.7894736842105263,89.47368421052632
