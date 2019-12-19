@@ -12,6 +12,8 @@ import seaborn as sns
 import pyabf
 import pandas as pd
 from scipy.signal import find_peaks
+import os
+wdir=os.getcwd() 
 
 
 #### open file 
@@ -37,20 +39,19 @@ protocol = abf.protocol
 
 
 ### select experimenter 
-user_input = int(input('Who did the recording:   Adna = 1   Charlotte = 2\n'))
+user_input = int(input('Which rig was used for this recording:   Rig 1 = 1   Rig 2 = 2\n'))
 
 experimenter_dict = { 
-       1 : 'Adna' , 
-       2 : 'Charlotte' 
+       1 : 'Rig 1' , 
+       2 : 'Rig 2' 
         } #dictionary for all opsin types numbered according to potential user input 
 
 experimenter = experimenter_dict.get(user_input) #get the dictionary value based on key entered by user   
 
 if experimenter != None:
-    print ('Trace recorded by ' +str(experimenter)) #print this is choice selected is in the dictionary 
+    print ('Trace recorded at ' +str(experimenter)) #print this is choice selected is in the dictionary 
 else:
-    raise ValueError ('Wrong number entered for experimenter, please run script again. No data was saved') #print this if choice selected in not in the opsin dictionary 
-
+    raise ValueError ('Wrong number entered for Rig used, please run script again. No data was saved') #print this if choice selected in not in the opsin dictionary 
 
 ### select opsin type 
 user_input = int(input('What cell type is this? Type the corresponding number: \nWT = 0\nEXCITATORY OPSINS: ChR2(1)      CoChR(2)     Chrimson(3)         ReaChR(4)       Chronos(5)      Cheriff(6)     \nINHIBITORY OPSINS: GtACR1(7)       GtACR2(8)       NpHR(9)         Arch(10)\n\n'))
@@ -80,13 +81,13 @@ else:
 ##### establish LED stimulation: LED wavelenght and power 
 
 ##extract wavelenght used 
-LED_wavelenght_user = int(input('What LED wavelenght did you use for this trace? Chose from the following options: \n(1)  475nm (LED3 / FITC)    \n(2)  520nm (LED4 / YFP) \n(3)  543nm (TRITC) \n(4)  575nm (LED5)\n(5)  630nm (Cy5)\n'))
+LED_wavelenght_user = int(input('What LED wavelenght did you use for this trace? Chose from the following options: \n(1)  475nm (LED3)    \n(2)  520nm (LED4)  \n(3)  543nm (TRITC)\n(4)  575nm (LED5)\n(5)  630nm (cy5)\n'))
 
 LED_wavelength_dict = { 
        1 : '475' , 
-       2 : '520' , 
+       2 : '520' ,
        3 : '543',
-       4 : '575' , 
+       4 : '575',
        5 : '630',
         } #dictionary for all opsin types numbered according to potential user input 
 
@@ -99,7 +100,7 @@ else:
 
 
 ## extract power range 
-LED_stim_type_user = int(input('What LED stim did you do? Chose from the following options: \n(1)  475nm shutter open NDF6   (2%light)\n(2)  475nm shutter open NDF5   (20%light)\n(3)  475nm shutter closed NDF0 (50% light)\n(4)  475nm shutter open NDF0   (100%light)\n\n(5)  520nm shutter closed NDF0 (50% light)\n(6)  520nm shutter open NDF0   (100%light)\n\n(7)  543nm shutter closed NDF0 (50% light)\n(8)  543nm shutter open NDF0   (100%light)\n\n(9)  575nm shutter closed NDF0 (50% light)\n(10) 575nm shutter open NDF0   (100%light)\n\n(11)  630nm shutter closed NDF0 (50% light)\n(12)  630nm shutter open NDF0   (100%light)\n\n'))
+LED_stim_type_user = int(input('What LED stim did you do? Chose from the following options: \n(1)  475nm 2% max irradiance\n(2)  475nm 20% max irradiance\n(3)  475nm 50% max irradiance\n(4)  475nm 100% max irradiance\n\n(5)  520nm 50% max irradiance\n(6)  520nm 100% max irradiance\n\n(7)  543nm 50% max irradiance\n(8)  543nm 100% max irradiance\n\n(9)  575nm 50% max irradiance\n(10)  575nm 100% max irradiance\n\n(11)  630nm 50% max irradiance\n(12)  630nm 100% max irradiance\n\n'))
 
 LED_power_setup_dict = { 
        1 : 'LED_475_2%' , 
@@ -111,9 +112,9 @@ LED_power_setup_dict = {
        7 : 'LED_543_50%',
        8 : 'LED_543_100%',
        9 : 'LED_575_50%' , 
-       10: 'LED_575_100%' ,  
-       11: 'LED_630_50%' , 
-       12: 'LED_630_100%' , 
+       10 : 'LED_575_100%',  
+       11 : 'LED_630_50%' , 
+       12 : 'LED_630_100%' , 
         } #dictionary for all opsin types numbered according to potential user input 
 
 LED_stim_type = LED_power_setup_dict.get(LED_stim_type_user) #get the dictionary value based on key entered by user   
@@ -196,7 +197,7 @@ voltage_deflection_LED = voltage_max_LED - voltage_baseline_LED
 stim_type_LED = 'LED_pulse'
 
 ##### counting spikes 
-if experimenter == 'Adna':
+if experimenter == 'Rig 1':
     
     
     mask = np.isin(current_injection_idx,LED_array, invert=True) ## create mask of where only I pulse idx are 
@@ -314,7 +315,7 @@ for lst in spike_per_I_and_LED_pulse:
     LED_I_spike.append(spike_per_pulse)
 
 ## pre post LED spikes
-if experimenter == 'Adna':
+if experimenter == 'Rig 1':
     pre_post_LED_idx= I_only_idx_cons
     del pre_post_LED_idx [0]
 
@@ -403,14 +404,16 @@ else:
     while 'na' in LED_max_V_user: LED_max_V_user.remove('na')  ## remove any na values since we don't need them 
 
 ##### open up excel sheet with all LED power values
-if experimenter == 'Charlotte':
-    LED_stim_power_table = pd.read_excel('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/LED_power_Charlotte_rig.xlsx', sheet_name = 'Power_60x', index_col = 1) #load dataframe containing LED powers and use V step as index values
+if experimenter == 'Rig 2':
+    xlsx_filename = os.path.join(wdir, 'Rig_2_LED_power.xlsx')
+    LED_stim_power_table = pd.read_excel(xlsx_filename, index_col = 1) #load dataframe containing LED powers and use V step as index values
     LED_stim_power_table_index = LED_stim_power_table.index.astype(str) #extract index from dataframe as string 
     LED_stim_power_table.index = LED_stim_power_table_index ## add index back to dataframe as string and not float as it was originally 
     LED_stim_power_table.columns = [ 'Voltage_step_V', 'LED_475_50%','LED_475_100%' , 'LED_520_50%', 'LED_520_100%', 'LED_543_50%', 'LED_543_100%', 'LED_630_50%', 'LED_630_100%']
 
 else: 
-    LED_stim_power_table = pd.read_excel('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/LED_power_Wyart_rig.xlsx', sheet_name = 'Power_60x', index_col = 1) #load dataframe containing LED powers and use V step as index values
+    xlsx_filename = os.path.join(wdir, 'Rig_1_LED_power.xlsx')
+    LED_stim_power_table = pd.read_excel(xlsx_filename, index_col = 1) #load dataframe containing LED powers and use V step as index values
     LED_stim_power_table_index = LED_stim_power_table.index.astype(str) #extract index from dataframe as string 
     LED_stim_power_table.index = LED_stim_power_table_index ## add index back to dataframe as string and not float as it was originally 
     LED_stim_power_table.columns = [ 'Voltage_step_V', 'LED_475_2%', 'LED_475_20%', 'LED_475_50%','LED_475_100%' , 'LED_520_50%', 'LED_520_100%', 'LED_575_50%', 'LED_575_100%']
@@ -444,7 +447,7 @@ trace_data_LED = pd.DataFrame({'trace_number':file_name ,
                                'pre_LED_I_spike_no' : pre_LED_I_spike_no, 
                                'LED_I_spike': LED_I_spike, 
                                'post_LED_I_spike_no' : post_LED_I_spike_no, 
-                               'first_spike_post_LED_time':first_spike_timing })
+                               'time_first_spike_post_LED_ms':first_spike_timing })
 
 
 trace_data_master = trace_data_LED
@@ -469,7 +472,7 @@ CC_inhibitory_Multi_Spike = pd.DataFrame(columns = column_names) #transform into
 ## save it as .csv
 CC_inhibitory_Multi_Spike.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_inhibitory_Multi_Spike.csv', header = True)
 """
-
+"""
 ##open master sheet with data 
 CC_inhibitory_Multi_Spike = pd.read_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_inhibitory_Multi_Spike.csv', index_col = 0) 
 
@@ -478,7 +481,7 @@ CC_inhibitory_Multi_Spike = CC_inhibitory_Multi_Spike.append(trace_data_master, 
 
 ## save new version of updated dataframe as csv
 CC_inhibitory_Multi_Spike.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_inhibitory_Multi_Spike.csv', header = True)
-
+"""
 
 #### plot individual LED stim 
 ##check for data existance and extract single rows for LED stim + current resp (done for a max of 7 stim per trace)
@@ -497,7 +500,7 @@ else:
 if (LED_data_df.index == 1).any() & (voltage_data_LED_df.index ==1).any():
     LED_stim_2 = LED_data_df.iloc[1]
     voltage_resp_2 = voltage_data_LED_df.iloc[1]
-    title_2 = str(LED_power_pulse[0]) + 'mW/mm2'
+    title_2 = str(LED_power_pulse[1]) + 'mW/mm2'
 else:
     LED_stim_2 = np.repeat(np.nan,len(LED_data[0]))
     voltage_resp_2 = np.repeat(np.nan,len(current_data_LED[0]))
@@ -507,7 +510,7 @@ else:
 if (LED_data_df.index == 2).any() & (voltage_data_LED_df.index ==2).any():
     LED_stim_3 = LED_data_df.iloc[2]
     voltage_resp_3 = voltage_data_LED_df.iloc[2]
-    title_3 = str(LED_power_pulse[0]) + 'mW/mm2'
+    title_3 = str(LED_power_pulse[2]) + 'mW/mm2'
 else:
     LED_stim_3 = np.repeat(np.nan,len(LED_data[0]))
     voltage_resp_3 = np.repeat(np.nan,len(current_data_LED[0]))
@@ -517,7 +520,7 @@ else:
 if (LED_data_df.index == 3).any() & (voltage_data_LED_df.index ==3).any():
     LED_stim_4 = LED_data_df.iloc[3]
     voltage_resp_4 = voltage_data_LED_df.iloc[3]
-    title_4 = str(LED_power_pulse[0]) + 'mW/mm2'
+    title_4 = str(LED_power_pulse[3]) + 'mW/mm2'
 else:
     LED_stim_4 = np.repeat(np.nan,len(LED_data[0]))
     voltage_resp_4 = np.repeat(np.nan,len(current_data_LED[0]))
@@ -527,7 +530,7 @@ else:
 if (LED_data_df.index == 4).any() & (voltage_data_LED_df.index ==4).any():
     LED_stim_5 = LED_data_df.iloc[4]
     voltage_resp_5 = voltage_data_LED_df.iloc[4]
-    title_5 = str(LED_power_pulse[0]) + 'mW/mm2'
+    title_5 = str(LED_power_pulse[4]) + 'mW/mm2'
 else:
     LED_stim_5 = np.repeat(np.nan,len(LED_data[0]))
     voltage_resp_5 = np.repeat(np.nan,len(current_data_LED[0]))
@@ -537,7 +540,7 @@ else:
 if (LED_data_df.index == 5).any() & (voltage_data_LED_df.index ==5).any():
     LED_stim_6 = LED_data_df.iloc[5]
     voltage_resp_6 = voltage_data_LED_df.iloc[5]
-    title_6 = str(LED_power_pulse[0]) + 'mW/mm2'
+    title_6 = str(LED_power_pulse[5]) + 'mW/mm2'
 else:
     LED_stim_6 = np.repeat(np.nan,len(LED_data[0]))
     voltage_resp_6 = np.repeat(np.nan,len(current_data_LED[0]))
@@ -547,7 +550,7 @@ else:
 if (LED_data_df.index == 6).any() & (voltage_data_LED_df.index == 6).any():
     LED_stim_7 = LED_data_df.iloc[6]
     voltage_resp_7 = voltage_data_LED_df.iloc[6]
-    title_7 = str(LED_power_pulse[0]) + 'mW/mm2'
+    title_7 = str(LED_power_pulse[6]) + 'mW/mm2'
 else:
     LED_stim_7 = np.repeat(np.nan,len(LED_data[0]))
     voltage_resp_7 = np.repeat(np.nan,len(current_data_LED[0]))
@@ -612,49 +615,3 @@ sub7.spines['bottom'].set_color('white')
 plt.setp(sub7.get_xticklabels(), visible = False)
 sns.despine()
 
-sub8 = plt.subplot(2,7,8)
-sub8.plot(LED_stim_1, linewidth=0.5, color = '0.2')
-plt.xlabel('Time (ms)')
-sns.despine()
-
-sub9 = plt.subplot(2,7,9)
-sub9.plot( LED_stim_2, linewidth=0.5, color = '0.2')
-plt.xlabel('Time (ms)')
-sns.despine()
-
-sub10 = plt.subplot(2,7,10)
-sub10.plot( LED_stim_3, linewidth=0.5, color = '0.2')
-plt.xlabel('Time (ms)')
-sns.despine()
-
-sub11 = plt.subplot(2,7,11)
-sub11.plot( LED_stim_4, linewidth=0.5, color = '0.2')
-plt.xlabel('Time (ms)')
-sns.despine()
-
-sub12 = plt.subplot(2,7,12)
-sub12.plot( LED_stim_5, linewidth=0.5, color = '0.2')
-plt.xlabel('Time (ms)')
-sns.despine()
-
-sub13 = plt.subplot(2,7,13)
-sub13.plot( LED_stim_6, linewidth=0.5, color = '0.2')
-plt.xlabel('Time (ms)')
-sns.despine()
-
-sub14 = plt.subplot(2,7,14)
-sub14.plot(LED_stim_7, linewidth=0.5, color = '0.2')
-plt.xlabel('Time (ms)')
-sns.despine()
-
-"""
-print ('Total number of current and LED pulses: N = ' +str(total_I_plus_LED_pulses ))
-print ('During which we counted a total of spikes : N = ' +str(spike_count_I_LED_total ))
-print ('Coming to and average of spikes per pulse of  : N = ' +str(spike_count_I_LED_avg_per_pulse ))
-print ('Standard Current pulse only gave rise to an average of spikes per pulse  : N = ' +str(spike_count_I_avg_per_pulse))
-
-if spike_count_I_avg_per_pulse > spike_count_I_LED_avg_per_pulse:
-    print ('Succesful inhibition in this cell!')
-else:
-    print ('Problems with inhibition of single spikes in this trace')
-"""
