@@ -10,10 +10,10 @@ How the script works:
 1. Asks user to provide a file path for the abf file to be analysed
 2. Asks user for meta-data that cannot be automatically extracted from abf file (such as stimulation regime and cell type etc)
 3. Finds all points where the current pulse is applied and uses these time-bins to extract data from the trace in which voltage values are recorded.
-3. Finds all points where the LED is ON and uses these time-bins to extract data from the trace in which voltage values are recorded. 
-4. Puts all extracted data in a single .csv file named after the trace
-5. Adds data as a new row to a master .csv file for the whole experiment 
-6. Outputs in line graphs showing cell response only during concomitent current injection and LED stimulation time period.
+4. Finds all points where the LED is ON and uses these time-bins to extract data from the trace in which voltage values are recorded. 
+5. Puts all extracted data in a single .csv file named after the trace
+6. Adds data as a new row to a master .csv file for the whole experiment 
+7. Outputs in line graphs showing cell response only during concomitent current injection and LED stimulation time period.
 
 Metadata collected: file name, date, experimenter, protocol type, opsin type, LED wavelenght, power and stimulation time.
 Data that is calculated by script: 
