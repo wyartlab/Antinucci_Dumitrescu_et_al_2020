@@ -29,7 +29,7 @@ Open the *Sample_data_info* excel sheet which is in the *Sample_data* folder and
 For example let's assume we want to analyse the trace *18n270027_1*. Reading the info sheet we can see that it should be analysed with the script: *Excitatory_Opsin_Voltage_Clamp.py* 
 
 #### 3 Run pyton script 
-If you run *Excitatory_Opsin_Voltage_Clamp.py* you will get some prompts that you need to respond to as part of the analysis. The information that matches each .abf file is in the *Sample_data_info* excel sheet.\ 
+If you run *Excitatory_Opsin_Voltage_Clamp.py* you will get some prompts that you need to respond to as part of the analysis. The information that matches each .abf file is in the *Sample_data_info* excel sheet. 
 
 For trace *18n270027_1* analysed with *Excitatory_Opsin_Voltage_Clamp.py* you will first have to provide the full file path where the data is located. Paste in the python console the full path where trace 18n270027_1 is located.\ 
 Next you will be asked to provide the ID of the rig used to collect data. For this trace enter 2.\
