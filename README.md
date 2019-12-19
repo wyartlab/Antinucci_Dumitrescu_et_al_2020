@@ -43,7 +43,7 @@ The data will be extracted, colated and you will also see a figure produced with
 #### 4 Check data analysis
 Open Analysis_output folder and check that (1) the *VC_excitatory_opsin_master.csv* file has one new row containing your newly extracted data and (2) open *Single_Trace_data/VC_excitatory* folder and check that a .csv file named after your trace is present. 
 
-To check that the analysis was run correctly you can open either the single or the master file containing the extracted data and check that the value of the 1st LED stimulation performed in this trace is **7.44 mW/mm2** and that it resulted in a photocurrent response with a max amplitude of **223.234 pA**
+To check that the analysis was run correctly you can open either the single or the master file containing the extracted data and check that the value of the 1st LED stimulation performed in trace *18n270027_1* is **7.44 mW/mm2** and that it resulted in a photocurrent response with a max amplitude of **223.234 pA** etc. 
 
 #### 5 Problem reporting 
 If you have problems running the example scripts with the example .abf files provided or you spot any mistakes please get in touch at *adna.siana@gmail.com*
