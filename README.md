@@ -9,10 +9,9 @@ As an overview the following figures (both main and supplemental) from the paper
 **Fig 9:** Inhibitory_Opsin_Current_Clamp, Inhibitory_Opsin_CC_Short_AP_Inhibit, Inhibitory_Opsin_CC_Long_AP_Inhibit
 
 ### Folder organisation:
-All the scripts except Gapfree_AP_stim are dependant on the functions: exponentialFitGetTau & exponentialFitGetTauInhibitory (details within scripts) and the 2 excel files Rig_1_LED_power & Rig_2_LED_power. 
-For this reason these 4 files need to be in same location as the python analysis scripts. 
-The Sample_data folder contains several .abf files that can be used to test every script. The details of each .abf file and which script it can be used with are in the Sample_data_info excel sheet. 
-The Analysis_output folder contains the outputs organised per script type. For the analysis to run correctly, this folder also needs to be present in the same location as the .py files
+All the scripts except Gapfree_AP_stim are dependant on the functions: *exponentialFitGetTau* & *exponentialFitGetTauInhibitory* (details within scripts) and the 2 excel files *Rig_1_LED_power* & *Rig_2_LED_power*. For this reason these 4 files need to be in same location as the python analysis scripts.\
+The *Sample_data* folder contains several .abf files that can be used to test every script. The details of each .abf file and which script it can be used with are in the *Sample_data_info* excel sheet.\
+The *Analysis_output* folder contains the data extracted organised per script type. For the analysis to run correctly, this folder also needs to be present in the same location as the .py files
 
 ### Data Analysis:
 
@@ -30,11 +29,12 @@ Open the *Sample_data_info* excel sheet which is in the *Sample_data* folder and
 For example let's assume we want to analyse the trace *18n270027_1*. Reading the info sheet we can see that it should be analysed with the script: *Excitatory_Opsin_Voltage_Clamp.py* 
 
 #### 3 Run pyton script 
-If you run *Excitatory_Opsin_Voltage_Clamp.py* you will get some prompts that you need to respond to as part of the analysis. The information that matches each .abf file is in the *Sample_data_info* excel sheet. \ 
+If you run *Excitatory_Opsin_Voltage_Clamp.py* you will get some prompts that you need to respond to as part of the analysis. The information that matches each .abf file is in the *Sample_data_info* excel sheet.\ 
+
 For trace *18n270027_1* analysed with *Excitatory_Opsin_Voltage_Clamp.py* you will first have to provide the full file path where the data is located. Paste in the python console the full path where trace 18n270027_1 is located.\ 
 Next you will be asked to provide the ID of the rig used to collect data. For this trace enter 2.\
 Next you will be able to select which opsin was tested. Enter the number associated with Chrimson.\
-Next you will be able to select which wavelenght was used to stimulate cell. Enter the number associated with 630nm.\
+Next you will be able to select which wavelenght was used to stimulate cell. Enter the number associated with 630nm. \
 Finally you will be asked to select the irradiance max range used to stimulate cell. Enter the number associated with option LED_630_100%. 
 
 The data will be extracted, colated and you will also see a figure produced with key data once the script has finished running. 
