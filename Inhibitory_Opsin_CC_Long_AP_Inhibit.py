@@ -479,7 +479,7 @@ trace_data_master = trace_data_LED
 
 ### save individual file
 data_final_df = trace_data_master ## date data_final array and transform into transposed dataframe
-data_final_df.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/' + str(file_name) +'.csv', header = True) ## write file as individual csv file 
+data_final_df.to_csv('Analysis_output/Single_Trace_data/CC_inhibitory_long_stim/' + str(file_name) +'.csv', header = True) ## write file as individual csv file 
 
 ##### save data in master dataframe
 
@@ -490,20 +490,21 @@ To make am empty dataframe with correctly labelled columns for this particular a
 column_names = list(trace_data_master)     
 
 ## make emty dataframe + column list 
-CC_inhibitory_Multi_Spike = pd.DataFrame(columns = column_names) #transform into dataframe and use given index 
+CC_inhibitory_long_pulse = pd.DataFrame(columns = column_names) #transform into dataframe and use given index 
+
 ## save it as .csv
-CC_inhibitory_Multi_Spike.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_inhibitory_Multi_Spike.csv', header = True)
+CC_inhibitory_long_pulse.to_csv('Analysis_output/CC_inhibitory_long_pulse.csv', header = True)
 """
-"""
+
 ##open master sheet with data 
-CC_inhibitory_Multi_Spike = pd.read_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_inhibitory_Multi_Spike.csv', index_col = 0) 
+CC_inhibitory_long_pulse = pd.read_csv('Analysis_output/CC_inhibitory_long_pulse.csv', index_col = 0) 
 
 ### add data extracted here as a new row in opened dataframe
-CC_inhibitory_Multi_Spike = CC_inhibitory_Multi_Spike.append(trace_data_master, sort = False) #adds row with new values to main dataframe
+CC_inhibitory_long_pulse = CC_inhibitory_long_pulse.append(trace_data_master, sort = False) #adds row with new values to main dataframe
 
 ## save new version of updated dataframe as csv
-CC_inhibitory_Multi_Spike.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_inhibitory_Multi_Spike.csv', header = True)
-"""
+CC_inhibitory_long_pulse.to_csv('Analysis_output/CC_inhibitory_long_pulse.csv', header = True)
+
 
 #### plot individual LED stim 
 ##check for data existance and extract single rows for LED stim + current resp (done for a max of 7 stim per trace)
@@ -579,6 +580,16 @@ else:
     title_7 = 'No LED stim applied'
     
 #### plot figure of LED stim + response 
+ 
+ 
+LED_power = LED_power_pulse.tolist()
+
+for n, p in zip (LED_I_spike, LED_power):
+        if n > 0:
+           print('For a stimulation of ' + str(p) + ' mW/mm2 there are still ' +str(n) + ' spikes present during LED stimulation')
+        else:
+            print ('All spikes present during LED stimulation were inhibited')
+        
 
 fig2 = plt.figure(figsize =(20,5))
 sub1 = plt.subplot(2,7,1)
