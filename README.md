@@ -1,6 +1,6 @@
 # Analysis Scripts for Electrophysiology Data
 
-<p>Here you will find a series of scripts and functions used to analyse the bulk of the electrophysiology data present in Antinucci,Dumitrescu et al 2020. Each script has an indepth README at the begining comprising a full description of the process of data extraction and analysis.
+<p>Here you will find a series of scripts and functions used to analyse the bulk of the electrophysiology data present in Antinucci, Dumitrescu et al 2020. Each script has an indepth README at the begining comprising a full description of the process of data extraction and analysis.
 
 As an overview the following figures (both main and supplemental) from the paper contain data extracted with:\
 **Fig 4:** Gapfree_AP_stim & Excitatory_Opsin_Voltage_Clamp\
