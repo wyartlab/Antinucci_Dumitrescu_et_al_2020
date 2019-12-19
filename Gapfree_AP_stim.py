@@ -36,6 +36,8 @@ import seaborn as sns
 import pyabf
 import pandas as pd
 from scipy.signal import find_peaks
+import os
+wdir=os.getcwd() 
 
 
 #### open file 
@@ -345,7 +347,7 @@ Gapfree_AP_stim = pd.DataFrame(columns = Gapfree_AP_stim_columns) #transform int
 ## save it as .csv
 Gapfree_AP_stim.to_csv('Analysis_output/Gapfree_AP_stim.csv', header = True)
 """
-"""
+
 ##open master sheet with data 
 Gapfree_AP_stim = pd.read_csv('Analysis_output/Gapfree_AP_stim.csv', index_col = 0) 
 
@@ -355,5 +357,5 @@ Gapfree_AP_stim.loc[len(Gapfree_AP_stim)] = data_final #adds row with new values
 ## save new version of updated dataframe as csv
 Gapfree_AP_stim.to_csv('Analysis_output/Gapfree_AP_stim.csv', header = True)
 
-"""
+
 
