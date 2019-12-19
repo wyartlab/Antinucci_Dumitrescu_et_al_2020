@@ -285,7 +285,23 @@ time_points_plot = [(np.arange(len(current_data[0]))*abf.dataSecPerPoint) * 1000
 
 
 ###putting all data together to extract response values per trace 
-trace_data = pd.DataFrame({'trace_number':file_name ,'date_time' : date_time,'Experimenter': experimenter, 'protocol' : protocol,  'cell_type': cell_type_selected, 'I_level_baseline_pA': abs(current_data_baseline), 'V_data_baseline':voltage_data_baseline,  'LED_stim_wavelenght': LED_wavelength, 'LED_time_ms': LED_time, 'LED_power_mWmm': LED_power_pulse, 'Max_photocurrent_pA' : current_max,'Steady_photocurrent_pA': steady_current_mean, 'Activation_time_ms':opsin_resp_max_delay_ms, 'Inactivation_time_ms': inactivation_tau, 'Deactivation_time_ms': deactivation_tau,'Current_points_plot': current_data, 'LED_points_plot': LED_data })
+trace_data = pd.DataFrame({'trace_number':file_name ,
+                           'date_time' : date_time,
+                           'Experimenter': experimenter, 
+                           'protocol' : protocol,  
+                           'cell_type': cell_type_selected, 
+                           'I_level_baseline_pA': abs(current_data_baseline), 
+                           'V_data_baseline':voltage_data_baseline,  
+                           'LED_stim_wavelenght': LED_wavelength, 
+                           'LED_time_ms': LED_time, 
+                           'LED_power_mWmm': LED_power_pulse, 
+                           'Max_photocurrent_pA' : current_max,
+                           'Steady_photocurrent_pA': steady_current_mean, 
+                           'Activation_time_ms':opsin_resp_max_delay_ms, 
+                           'Inactivation_time_ms': inactivation_tau, 
+                           'Deactivation_time_ms': deactivation_tau,
+                           'Current_points_plot': current_data, 
+                           'LED_points_plot': LED_data })
 
 ### save individual file
 save_to_file = os.path.join(wdir, 'Analysis_output/Single_Trace_data/VC_inhibitory/')

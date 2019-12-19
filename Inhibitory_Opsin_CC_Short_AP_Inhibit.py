@@ -363,8 +363,23 @@ LED_power_pulse = LED_power_pulse.reset_index( drop = True)
 time_points_plot = (np.arange(len(voltage_data_LED[0]))*abf.dataSecPerPoint) * 1000
 
 ###putting all data together to extract response values per trace 
-trace_data_LED = pd.DataFrame({'trace_number':file_name ,'date_time' : date_time, 'experimenter': experimenter, 'protocol' : protocol,  'cell_type': cell_type_selected, 'V_baseline': voltage_data_baseline, 'LED_wavelenght': LED_wavelength,   
-'LED_time_ms': LED_time, 'LED_power_mWmm': LED_power_pulse, 'total_I_only_pulses': total_I_pulses, 'Spike_I_stim_total': spike_count_I_total, 'Spike_I_avg': spike_count_I_avg_per_pulse, 'total_I_plus_LED_only_pulses':total_I_plus_LED_pulses, 'spike_I_and_LED_stim_total': spike_count_I_LED_total,  'spike_I_and_LED_stim_avg': spike_count_I_LED_avg_per_pulse, 'spike_diff_on_avg_I_vs_LED': spike_dif_on_avg, 'spike_inhibition_%': spike_inhibition_percent  } ,  index=[0])
+trace_data_LED = pd.DataFrame({'trace_number':file_name ,
+                               'date_time' : date_time, 
+                               'experimenter': experimenter, 
+                               'protocol' : protocol,  
+                               'cell_type': cell_type_selected, 
+                               'V_baseline': voltage_data_baseline, 
+                               'LED_wavelenght': LED_wavelength,
+                               'LED_time_ms': LED_time, 
+                               'LED_power_mWmm': LED_power_pulse, 
+                               'total_I_only_pulses': total_I_pulses, 
+                               'Spike_I_stim_total': spike_count_I_total, 
+                               'Spike_I_avg': spike_count_I_avg_per_pulse, 
+                               'total_I_plus_LED_only_pulses':total_I_plus_LED_pulses, 
+                               'spike_I_and_LED_stim_total': spike_count_I_LED_total,  
+                               'spike_I_and_LED_stim_avg': spike_count_I_LED_avg_per_pulse, 
+                               'spike_diff_on_avg_I_vs_LED': spike_dif_on_avg, 
+                               'spike_inhibition_%': spike_inhibition_percent  } ,  index=[0])
 
 trace_data_master = trace_data_LED
 

@@ -316,10 +316,23 @@ except statistics.StatisticsError:
 
 ###putting all data together to extract response values per trace 
 
-trace_data_LED = pd.DataFrame({'trace_number':file_name ,'date_time' : date_time, 'experimenter': experimenter, 'protocol' : protocol,  'cell_type': cell_type_selected, 'V_baseline': voltage_data_baseline, 'LED_wavelenght': LED_wavelength,   
-'LED_time_ms': LED_time, 'LED_power_mWmm': LED_power_pulse, 'LED_freq_target': LED_frequency, 'LED_spike_no_target': LED_spike_target, 'LED_freq_response': spike_freq, 'Spike_no_total': spikes_total, 'Spikes_amplitude': [spikes_amplitude], 'Spike_per_LED_stim': [spike_per_LED_stim], '1st_spike_time_ms': [spike_time_ms], 'Spike_jitter': spike_jitter  })
-
-
+trace_data_LED = pd.DataFrame({'trace_number':file_name ,
+                               'date_time' : date_time, 
+                               'experimenter': experimenter, 
+                               'protocol' : protocol, 
+                               'cell_type': cell_type_selected, 
+                               'V_baseline': voltage_data_baseline, 
+                               'LED_wavelenght': LED_wavelength,
+                               'LED_time_ms': LED_time, 
+                               'LED_power_mWmm': LED_power_pulse, 
+                               'LED_freq_target': LED_frequency, 
+                               'LED_spike_no_target': LED_spike_target, 
+                               'LED_freq_response': spike_freq, 
+                               'Spike_no_total': spikes_total, 
+                               'Spikes_amplitude': [spikes_amplitude], 
+                               'Spike_per_LED_stim': [spike_per_LED_stim], 
+                               '1st_spike_time_ms': [spike_time_ms], 
+                               'Spike_jitter': spike_jitter  })
 ### save data status 
 
 

@@ -744,8 +744,25 @@ time_points_plot = (np.arange(len(voltage_data_LED[0]))*abf.dataSecPerPoint) * 1
 
 ###putting all data together to extract response values per trace 
 
-trace_data_LED = pd.DataFrame({'trace_number':file_name ,'date_time' : date_time, 'experimenter': experimenter, 'protocol' : protocol,  'cell_type': cell_type_selected,'stim_type': stim_type_LED, 'V_baseline': voltage_data_baseline, 'LED_wavelenght': LED_wavelength,   
-'LED_time_ms': LED_time, 'LED_power_mWmm': LED_power_pulse, 'response_type_LED':response_type_LED_all, 'spike_per_LED_stim': spike_count_LED_all, 'spike_freq_LED': spike_freq_LED_all, 'subthresh_per_LED_stim': subthresh_event_LED_all, 'max_V_deflection_level_mV' : voltage_max_LED_all, 'total_V_deflection_from_baseline_mV': V_deflection_LED_all ,'time_to_peak_v_deflection_ms': V_resp_delay_LED_all, 'voltage_points_plot': voltage_data_LED, 'LED_points_plot': LED_data  })
+trace_data_LED = pd.DataFrame({'trace_number':file_name ,
+                               'date_time' : date_time, 
+                               'experimenter': experimenter, 
+                               'protocol' : protocol,  
+                               'cell_type': cell_type_selected,
+                               'stim_type': stim_type_LED, 
+                               'V_baseline': voltage_data_baseline, 
+                               'LED_wavelenght': LED_wavelength,
+                               'LED_time_ms': LED_time, 
+                               'LED_power_mWmm': LED_power_pulse, 
+                               'response_type_LED':response_type_LED_all, 
+                               'spike_per_LED_stim': spike_count_LED_all, 
+                               'spike_freq_LED': spike_freq_LED_all, 
+                               'subthresh_per_LED_stim': subthresh_event_LED_all, 
+                               'max_V_deflection_level_mV' : voltage_max_LED_all, 
+                               'total_V_deflection_from_baseline_mV': V_deflection_LED_all ,
+                               'time_to_peak_v_deflection_ms': V_resp_delay_LED_all, 
+                               'voltage_points_plot': voltage_data_LED, 
+                               'LED_points_plot': LED_data  })
 
 
 trace_data_master = trace_data_LED.append(trace_data_I_inj, sort = False)

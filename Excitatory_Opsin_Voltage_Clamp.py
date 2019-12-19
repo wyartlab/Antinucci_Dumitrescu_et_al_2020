@@ -251,7 +251,21 @@ time_points_plot = [(np.arange(len(current_data[0]))*abf.dataSecPerPoint) * 1000
 
 
 ###putting all data together to extract response values per trace 
-trace_data = pd.DataFrame({'trace_number':file_name ,'date_time' : date_time,'Experimenter': experimenter, 'protocol' : protocol,  'cell_type': cell_type_selected, 'I_level_baseline_pA': abs(current_data_baseline), 'V_data_baseline':voltage_data_baseline,  'LED_stim_wavelenght': LED_wavelength, 'LED_time_ms': LED_time, 'LED_power_mWmm': LED_power_pulse, 'Max_photocurrent_pA' : current_max, 'Activation_time_ms':opsin_resp_max_delay_ms, 'Deactivation_time_ms': deactivation_tau, 'Current_points_plot': current_data, 'LED_points_plot': LED_data })
+trace_data = pd.DataFrame({'trace_number':file_name ,
+                           'date_time' : date_time,
+                           'Experimenter': experimenter,
+                           'protocol' : protocol,  
+                           'cell_type': cell_type_selected, 
+                           'I_level_baseline_pA': abs(current_data_baseline), 
+                           'V_data_baseline':voltage_data_baseline,  
+                           'LED_stim_wavelenght': LED_wavelength, 
+                           'LED_time_ms': LED_time, 
+                           'LED_power_mWmm': LED_power_pulse, 
+                           'Max_photocurrent_pA' : current_max, 
+                           'Activation_time_ms':opsin_resp_max_delay_ms, 
+                           'Deactivation_time_ms': deactivation_tau, 
+                           'Current_points_plot': current_data, 
+                           'LED_points_plot': LED_data })
 
 
 ### save individual file
@@ -285,34 +299,6 @@ VC_excitatory_opsin_master.to_csv('Analysis_output/VC_excitatory_opsin_master.cs
 
 #### plotting data
  
-"""
-##full trace 
-fig1 = plt.figure(figsize =(15,5))## plot all raw data 
-sub1 = plt.subplot(211, )
-sub1.plot(time, current_trace, linewidth=0.5, color = '0.2')
-plt.ylim(-500,50) #for y axis
-plt.xlim(0,) #for x axiss
-plt.ylabel('pA')
-sub1.spines['left'].set_color('0.2')
-sub1.spines['bottom'].set_color('white')
-sub1.tick_params(axis='y', colors='0.2')
-sub1.tick_params(axis='x', colors='white')
-plt.setp(sub1.get_xticklabels(), visible = False)
-sns.despine()
-
-sub2 = plt.subplot(212, sharex=sub1)
-plt.plot(time, LED_trace, linewidth=0.5, color = '0.2')
-plt.ylim(-0.5,5) #for y axis
-plt.xlim(0,) #for x axis
-plt.xlabel('time (s)')
-plt.ylabel('LED_V_input')
-sub2.spines['left'].set_color('0.2')
-sub2.spines['bottom'].set_color('white')
-sub2.tick_params(axis='y', colors='0.2')
-sub2.tick_params(axis='x', colors='0.2')
-sns.despine()
-plt.show()
-"""
 #### individual stim 
 ##check for data existance and extract single rows for LED stim + current resp (done for a max of 7 stim per trace)
 
