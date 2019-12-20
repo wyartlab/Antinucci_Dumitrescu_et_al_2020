@@ -639,112 +639,14 @@ if cell_type_selected == 'GtACR1' or cell_type_selected == 'GtACR2':
 else:
     from exponentialFitGetTau  import exponentialFitGetTau # fits to hyperpolarising outward current 
 
-
-try:
-    data_LED_stim_1 =voltage_data_steady[0] 
-    y = voltage_data_steady[0]
-    x = np.linspace(1, len(y), len(y)) # THIS PROBABLY NEEDS TO BE CHANGED TO PUT THE CORRECT VALUES of x!
+deactivation_tau = []
+for data_row in voltage_data_steady:
+    y = data_row
+    x = np.linspace(1, len(y), len(y))
     tau = exponentialFitGetTau(x, y, 1, 19000)
-    tau_steady_LED_stim_1 = tau / sampling_rate
-except IndexError:
-    tau_steady_LED_stim_1 = 'No LED stim applied' ## if there is no pulse 
-    
-except RuntimeError:
-    tau_steady_LED_stim_1 = 'tau fit not possible' ## if there is no pulse     
-
-try:
-    data_LED_stim_2 =voltage_data_steady[1] 
-    y = voltage_data_steady[1]
-    x = np.linspace(1, len(y), len(y)) # THIS PROBABLY NEEDS TO BE CHANGED TO PUT THE CORRECT VALUES of x!
-    tau = exponentialFitGetTau(x, y, 1, 19000)
-    tau_steady_LED_stim_2 = tau / sampling_rate
-except IndexError:
-    tau_steady_LED_stim_2 = 'No LED stim applied' ## if there is no pulse 
-    
-except RuntimeError:
-    tau_steady_LED_stim_2 = 'tau fit not possible' ## if there is no pulse     
-
-
-try:
-    data_LED_stim_3 =voltage_data_steady[2] 
-    y = voltage_data_steady[2]
-    x = np.linspace(1, len(y), len(y)) # THIS PROBABLY NEEDS TO BE CHANGED TO PUT THE CORRECT VALUES of x!
-    tau = exponentialFitGetTau(x, y, 1, 19000)
-    tau_steady_LED_stim_3 = tau / sampling_rate
-except IndexError:
-    tau_steady_LED_stim_3 = 'No LED stim applied' ## if there is no pulse 
-    
-except RuntimeError:
-    tau_steady_LED_stim_3 = 'tau fit not possible' ## if there is no pulse     
-
-try:
-    data_LED_stim_4 =voltage_data_steady[3] 
-    y = voltage_data_steady[3]
-    x = np.linspace(1, len(y), len(y)) # THIS PROBABLY NEEDS TO BE CHANGED TO PUT THE CORRECT VALUES of x!
-    tau = exponentialFitGetTau(x, y, 1, 19000)
-    tau_steady_LED_stim_4 = tau / sampling_rate
-except IndexError:
-    tau_steady_LED_stim_4 = 'No LED stim applied' ## if there is no pulse 
-    
-except RuntimeError:
-    tau_steady_LED_stim_4 = 'tau fit not possible' ## if there is no pulse  
-    
-   
-try:
-    data_LED_stim_5 =voltage_data_steady[4] 
-    y = voltage_data_steady[4]
-    x = np.linspace(1, len(y), len(y)) # THIS PROBABLY NEEDS TO BE CHANGED TO PUT THE CORRECT VALUES of x!
-    tau = exponentialFitGetTau(x, y, 1, 19000)
-    tau_steady_LED_stim_5 = tau / sampling_rate
-except IndexError:
-    tau_steady_LED_stim_5 = 'No LED stim applied' ## if there is no pulse 
-    
-except RuntimeError:
-    tau_steady_LED_stim_5 = 'tau fit not possible' ## if there is no pulse  
-     
-
-try:
-    data_LED_stim_6 =voltage_data_steady[5] 
-    y = voltage_data_steady[5]
-    x = np.linspace(1, len(y), len(y)) # THIS PROBABLY NEEDS TO BE CHANGED TO PUT THE CORRECT VALUES of x!
-    tau = exponentialFitGetTau(x, y, 1, 19000)
-    tau_steady_LED_stim_6 = tau / sampling_rate
-except IndexError:
-    tau_steady_LED_stim_6= 'No LED stim applied' ## if there is no pulse 
-    
-except RuntimeError:
-    tau_steady_LED_stim_6 = 'tau fit not possible' ## if there is no pulse  
- 
-    
-try:
-    data_LED_stim_7 =voltage_data_steady[6] 
-    y = voltage_data_steady[6]
-    x = np.linspace(1, len(y), len(y)) # THIS PROBABLY NEEDS TO BE CHANGED TO PUT THE CORRECT VALUES of x!
-    tau = exponentialFitGetTau(x, y, 1, 19000)
-    tau_steady_LED_stim_7 = tau / sampling_rate
-except IndexError:
-    tau_steady_LED_stim_7 = 'No LED stim applied' ## if there is no pulse 
-    
-except RuntimeError:
-    tau_steady_LED_stim_7 = 'tau fit not possible' ## if there is no pulse  
- 
-    
-try:
-    data_LED_stim_8 =voltage_data_steady[7] 
-    y = voltage_data_steady[7]
-    x = np.linspace(1, len(y), len(y)) # THIS PROBABLY NEEDS TO BE CHANGED TO PUT THE CORRECT VALUES of x!
-    tau = exponentialFitGetTau(x, y, 1, 19000)
-    tau_steady_LED_stim_8 = tau / sampling_rate
-except IndexError:
-    tau_steady_LED_stim_8 = 'No LED stim applied' ## if there is no pulse 
-    
-except RuntimeError:
-    tau_steady_LED_stim_8 = 'tau fit not possible' ## if there is no pulse  
-    
-tau_steady_count_all = [tau_steady_LED_stim_1, tau_steady_LED_stim_2, tau_steady_LED_stim_3, tau_steady_LED_stim_4, tau_steady_LED_stim_5, tau_steady_LED_stim_6, tau_steady_LED_stim_7,tau_steady_LED_stim_8]
-max_list_index = len(LED_data)
-del tau_steady_count_all [max_list_index:8]
-
+    tau_LED_stim = tau / sampling_rate
+    deactivation_tau.append(tau_LED_stim)
+    print('Deactivation time constant for this photocurrent response is ' +str(round(tau_LED_stim,2)) + ' ms')
 
 
 ####### determine power in mW/mm2 of max LED analog pulse V value
@@ -802,11 +704,11 @@ trace_data_LED = pd.DataFrame({'trace_number':file_name ,
                                'spike_per_LED_stim': spike_count_LED_all, 
                                'spike_freq_LED': spike_freq_LED_all, 
                                'subthresh_per_LED_stim': subthresh_event_LED_all, 
-                               'LED_voltage_resp_max_mV' : voltage_max_LED_all, 
+                               'Max_V_response_mV' : voltage_max_LED_all, 
                                'total_V_deflection_from_baseline_mV': V_deflection_LED_all , 
-                               'V_deflection_max_steady':voltage_deflection_steady_LED ,
-                               'opsin_response_max_delay_LED_on': V_resp_delay_LED_all, 
-                               'tau_steady_baseline': tau_steady_count_all, 
+                               'Steady_state_V_deflection_mV':voltage_deflection_steady_LED ,
+                               'Time_to_peak_response_ms': V_resp_delay_LED_all, 
+                               'deactivation_time_ms': deactivation_tau, 
                                'voltage_points_plot': voltage_data_LED, 
                                'LED_points_plot': LED_data  })
 
@@ -815,11 +717,11 @@ trace_data_master = trace_data_LED
 
 ### save data status 
 
-'''
+
 ### save individual file
 data_final_df = trace_data_master ## date data_final array and transform into transposed dataframe
 data_final_df.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/' + str(file_name) +'.csv', header = True) ## write file as individual csv file 
-'''
+
 ##### save data in master dataframe
 
 """
@@ -833,7 +735,7 @@ CC_opsin_inhibitory_master = pd.DataFrame(columns = column_names) #transform int
 ## save it as .csv
 CC_opsin_inhibitory_master.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_opsin_inhibitory_master.csv', header = True)
 """
-"""
+
 ##open master sheet with data 
 CC_opsin_inhibitory_master = pd.read_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_opsin_inhibitory_master.csv', index_col = 0) 
 
@@ -842,7 +744,6 @@ CC_opsin_inhibitory_master = CC_opsin_inhibitory_master.append(trace_data_master
 
 ## save new version of updated dataframe as csv
 CC_opsin_inhibitory_master.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_opsin_inhibitory_master.csv', header = True)
-"""
 
 #### plot individual LED stim 
 ##check for data existance and extract single rows for LED stim + current resp (done for a max of 7 stim per trace)
