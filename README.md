@@ -7,7 +7,7 @@ As an overview the following figures (both main and supplemental) from the paper
 **Fig 5:** Excitatory_Opsin_Current_Clamp and Excitatory_Opsin_Current_Clamp_Frequency\
 **Fig 8:** Inhibitory_Opsin_Voltage_Clamp\
 **Fig 9:** Inhibitory_Opsin_Current_Clamp, Inhibitory_Opsin_CC_Short_AP_Inhibit, Inhibitory_Opsin_CC_Long_AP_Inhibit
-add some random text 
+
 ### Folder organisation:
 All the scripts except Gapfree_AP_stim are dependant on the functions: *exponentialFitGetTau* & *exponentialFitGetTauInhibitory* (details within scripts) and the 2 excel files *Rig_1_LED_power* & *Rig_2_LED_power*. For this reason these 4 files need to be in same location as the python analysis scripts.\
 The *Sample_data* folder contains several .abf files that can be used to test every script. The details of each .abf file and which script it can be used with are in the *Sample_data_info* excel sheet.\
