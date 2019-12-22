@@ -4,7 +4,6 @@
 Created on Tue Apr 16 11:10:37 2019
 @author: adna.dumitrescu
 
-
 Script opens abf file with current clamp data aquired during excitatory opsin stimulation. 
 
 How the script works: 
@@ -79,8 +78,7 @@ if experimenter != None:
 else:
     raise ValueError ('Wrong number entered for Rig used, please run script again. No data was saved') #print this if choice selected in not in the opsin dictionary 
 
-### select opsin type 
-user_input = int(input('What cell type is this? Type the corresponding number: \nWT = 0\nEXCITATORY OPSINS: ChR2(1)      CoChR(2)     Chrimson(3)         ReaChR(4)       Chronos(5)      Cheriff(6)     \nINHIBITORY OPSINS: GtACR1(7)       GtACR2(8)       NpHR(9)         Arch(10)\n\n'))
+### select opsin type user_input = int(input('What cell type is this? Type the corresponding number: \nWT = 0\nEXCITATORY OPSINS: ChR2(1)      CoChR(2)     Chrimson(3)         ReaChR(4)       Chronos(5)      Cheriff(6)     \nINHIBITORY OPSINS: GtACR1(7)       GtACR2(8)       NpHR(9)         Arch(10)\n\n'))
 
 cell_type_dict = { 
        0 : 'WT' , 
@@ -417,8 +415,6 @@ LED_power_pulse= round(LED_power_pulse,2 ) ## round up to 2 decimal values, can'
 LED_power_pulse= pd.Series(LED_power_pulse.astype(str)) # transform to str 
 LED_power_pulse = LED_power_pulse.reset_index( drop = True)
 
-
-
 ## create time based on points extracted data 
 time_points_plot = (np.arange(len(voltage_data_LED[0]))*abf.dataSecPerPoint) * 1000
 
@@ -552,12 +548,6 @@ else:
     title_7 = 'No LED stim applied'
     
 #### plot figure of current injection + response 
-"""
-original version 
-
-if voltage_data_I_injection_points == [np.nan]:
-    print('No I pulse to graph')
-"""   
     
 if not voltage_data_I_injection_points:
     print('No I pulse to graph')
