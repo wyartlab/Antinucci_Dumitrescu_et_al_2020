@@ -318,7 +318,7 @@ for counter, (current, time, power) in enumerate (zip (current_data_plot, time_p
     plt.setp(sub.get_xticklabels(), visible = True)
     plt.xlabel('Time (ms)')
     plt.ylabel('Photocurrent (pA)')
-    plt.text (30, -10, 'LED ON', ha='center', color='magenta')
+    plt.text (30, -10, 'Dot = LED ON', ha='center', color='magenta')
     plt.suptitle('Example opsin photocurrent responses from this trace', fontsize=16)
 
     sns.despine()
