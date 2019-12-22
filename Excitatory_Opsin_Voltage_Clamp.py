@@ -243,7 +243,7 @@ for data_row in current_data:
     tau = exponentialFitGetTau(x, y, 1, 2000)
     tau_LED_stim = tau / sampling_rate
     deactivation_tau.append(tau_LED_stim)
-    print('Deactivation time constant for this photocurrent response is ' +str(round(tau_LED_stim,2)) + ' ms')
+    print('Deactivation time constant for this photocurrent response is ' +str(round(tau_LED_stim,2)) + ' ms\n\n')
 
 
 ###putting all data together to extract response values per trace 
@@ -308,9 +308,7 @@ time_points_plot = [time_points_plot] * len(current_data)
 fig1 = plt.figure(figsize =(30,5))
 fig1.subplots_adjust(wspace=0.5)
 
-for counter, (current, time, power) in enumerate (zip (current_data_plot, time_points_plot, LED_power_pulse), start = 1):
-    print(counter)
-    
+for counter, (current, time, power) in enumerate (zip (current_data_plot, time_points_plot, LED_power_pulse), start = 1): 
     sub = plt.subplot(2,len(current_data),counter)
     markers_on = [199]
     sub.plot (time, current, '-om', markevery = markers_on, markerfacecolor="m", markeredgecolor = 'w', linewidth=0.3, color = '0.2')
@@ -321,5 +319,6 @@ for counter, (current, time, power) in enumerate (zip (current_data_plot, time_p
     plt.xlabel('Time (ms)')
     plt.ylabel('Photocurrent (pA)')
     plt.text (30, -10, 'LED ON', ha='center', color='magenta')
-    
+    plt.suptitle('Example opsin photocurrent responses from this trace', fontsize=16)
+
     sns.despine()
