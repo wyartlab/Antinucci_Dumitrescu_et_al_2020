@@ -337,6 +337,37 @@ VC_inhibitory_opsin_master.to_csv('Analysis_output/VC_inhibitory_opsin_master.cs
 
 #### plotting data
 
+#### plotting data
+
+## create arrays for sample data to be plotted  
+LED_expand_idx_plot =[np.concatenate([ [x[0]-i-1 for i in reversed(range(1999))], x, [x[-1]+i+1 for i in range(19999)] ]) for x in LED_idx_cons] ### add 5ms pre LED start and 100ms after .  
+current_data_plot = [ current_trace_baseline_substracted [i] for i in LED_expand_idx_plot]
+
+time_points_plot = (np.arange(len(current_data_plot[0]))*abf.dataSecPerPoint) * 1000
+time_points_plot = [time_points_plot] * len(current_data)
+
+    
+#### make figure with sample data 
+    
+fig1 = plt.figure(figsize =(30,5))
+fig1.subplots_adjust(wspace=0.5)
+
+for counter, (current, time, power) in enumerate (zip (current_data_plot, time_points_plot, LED_power_pulse), start = 1): 
+    sub = plt.subplot(2,len(current_data),counter)
+    markers_on = [1999, 22000]
+    sub.plot (time, current, '-om', markevery = markers_on, markerfacecolor="m", markeredgecolor = 'w', linewidth=0.3, color = '0.2')
+    sub.tick_params (axis = 'x', colors='black') 
+    sub.spines['bottom'].set_color('black')
+    sub.set_title(power + ' mW/mm2', color = '0.2')
+    plt.setp(sub.get_xticklabels(), visible = True)
+    plt.xlabel('Time (ms)\n Magenta Dots = LED ON/OFF')
+    plt.ylabel('Photocurrent (pA)')
+    plt.suptitle('Example opsin photocurrent responses from this trace', fontsize=16)
+
+    sns.despine()
+
+
+"""
 #### individual stim 
 ##check for data existance and extract single rows for LED stim + current resp (done for a max of 7 stim per trace)
 
@@ -502,3 +533,4 @@ sub14 = plt.subplot(2,7,14)
 sub14.plot(time_points_plot[0], LED_stim_7, linewidth=0.5, color = '0.2')
 plt.xlabel('Time (ms)')
 sns.despine()
+"""
