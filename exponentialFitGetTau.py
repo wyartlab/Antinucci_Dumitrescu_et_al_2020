@@ -20,11 +20,17 @@ def getExponentialPart(x, y, nbPointsForFit):
   return [xExpPart, yExpPart]
 
 def exponentialFitGetTau(x, y, showPlot=0, nbPointsForFit=0):
-  [xExpPart, yExpPart] = getExponentialPart(x, y, nbPointsForFit)
-  popt, pcov = curve_fit(expFunc, xExpPart, yExpPart, p0=[np.amin(yExpPart), 200, 0])
-  if showPlot:
-    print('Monoexponential fit is superimposed (red) on raw data (blue)')
-    plt.plot(xExpPart, yExpPart)
-    plt.plot(xExpPart, expFunc(xExpPart, *popt), 'r-',label='fit: a=%5.3f, b=%5.3f, c=%5.3f' % tuple(popt))
-    plt.show()
-  return popt[1]
+    """
+    This function outputs a monoexponential fit to points denoted by x and y. 
+    It works for downward slopes as it finds the min of y as starting point.
+    3rd term = show plot of monoexponential fit (1) or not (0)
+    4th term = number of points for which to do the fit
+    """
+    [xExpPart, yExpPart] = getExponentialPart(x, y, nbPointsForFit)
+    popt, pcov = curve_fit(expFunc, xExpPart, yExpPart, p0=[np.amin(yExpPart), 200, 0])
+    if showPlot:
+        print('Monoexponential fit is superimposed (red) on raw data (blue)')
+        plt.plot(xExpPart, yExpPart)
+        plt.plot(xExpPart, expFunc(xExpPart, *popt), 'r-',label='fit: a=%5.3f, b=%5.3f, c=%5.3f' % tuple(popt))
+        plt.show()
+        return popt[1]

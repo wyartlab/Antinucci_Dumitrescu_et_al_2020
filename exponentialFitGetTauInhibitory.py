@@ -17,6 +17,13 @@ def getExponentialPart(x, y, nbPointsForFit):
   return [xExpPart, yExpPart]
 
 def exponentialFitGetTau(x, y, showPlot=0, nbPointsForFit=0):
+  """
+  This function outputs a monoexponential fit to points denoted by x and y. 
+  It works for upward slopes as it finds the max of y as starting point.
+  3rd term = show plot of monoexponential fit (1) or not (0)
+  4th term = number of points for which to do the fit
+  """
+  
   [xExpPart, yExpPart] = getExponentialPart(x, y, nbPointsForFit)
   popt, pcov = curve_fit(expFunc, xExpPart, yExpPart, p0=[np.amax(yExpPart), 200, 0])
   if showPlot:

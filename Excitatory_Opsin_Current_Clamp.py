@@ -314,7 +314,7 @@ stim_type_LED = 'LED_pulse'
 
 ####  extract number and max voltage deflection of subthreshold event or spikes for each LED stim.
 
-## set up empty arrays that will be populated for for loop below 
+## set up empty arrays that will be populated with for loop below 
 response_type_LED_all = []
 spike_count_LED_all = []
 subthresh_event_LED_all = []
@@ -511,7 +511,7 @@ time_points_plot = [time_points_plot] * len(voltage_data_LED)
 
 
 fig1 = plt.figure(figsize =(30,5))
-fig1.subplots_adjust(wspace=0.5)
+fig1.subplots_adjust(wspace=0.2)
 
 for counter, (voltage, time, power) in enumerate (zip (voltage_data_plot, time_points_plot, LED_power_pulse), start = 1): 
     sub = plt.subplot(2,len(voltage_data_LED),counter)
@@ -521,9 +521,8 @@ for counter, (voltage, time, power) in enumerate (zip (voltage_data_plot, time_p
     sub.spines['bottom'].set_color('black')
     sub.set_title(power + ' mW/mm2', color = '0.2')
     plt.setp(sub.get_xticklabels(), visible = True)
-    plt.xlabel('Time (ms)')
+    plt.xlabel('Time (ms)\n Magenta dot = LED ON')
     plt.ylabel('Photocurrent (pA)')
-    plt.text (100, -50, 'Dot = LED ON', ha='center', color='magenta')
     plt.suptitle('Example opsin induced voltage deflections from this trace', fontsize=16)
 
     sns.despine()

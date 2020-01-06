@@ -243,393 +243,73 @@ stim_type_LED = 'LED_pulse'
  
 #### spike count extract number of spikes for each LED stim. Calculated for a max of 7 pulses per trace. 
 
-### LED_stim_1_data
-try:
-    spike_LED_1 = find_peaks(voltage_data_LED[0], height=-30) #find peaks with height over 0mV in array 0 from voltage_data 
+## set up empty arrays that will be populated with for loop below 
+response_type_LED_all = []
+spike_count_LED_all = []
+subthresh_event_LED_all = []
+voltage_max_LED_all = []
+V_resp_delay_LED_all = []
+V_deflection_LED_all = []
+spike_freq_LED_all = []    
 
-except IndexError:
-    spike_LED_1 = 'No LED stim applied' ## if there is no pulse 
 
-if type(spike_LED_1) == str:
-    print ('No LED stim applied')
-    response_type_LED_1 = np.nan
-    spike_count_LED_1 = np.nan
-    subthresh_event_LED_1 = np.nan
-    voltage_max_LED_1 = np.nan
-    V_resp_delay_LED_1 = np.nan
-    V_deflection_LED_1 = np.nan
-    spike_freq_LED_1 = np.nan
+## loop that 1st counts number of pulses applied, then iterates and extracts information about peak of response and based on this categorises
+## subthreshold or spikes and extracts their peak responses and timing etc 
+
+
+for counter, (voltage, V_max, resp_time) in enumerate ( zip (voltage_data_LED, voltage_max_LED, opsin_max_resp_idx), start = 1): 
     
-else:    
+    spike_LED = find_peaks(voltage, height=-30) #find peaks with height over 0mV in array 0 from voltage_data 
 
-    if spike_LED_1 [0].size ==0: ## no spike is detected for a given current pulse create subthreshold response arrays 
-        print('LED stim 1 gave rise to subthreshold event')
-        response_type_LED_1 = 'sub_thresh'
-        spike_count_LED_1 = 0
-        subthresh_event_LED_1 = 1
-        voltage_max_LED_1 = voltage_max_LED[0]
-        voltage_max_LED_1_idx = opsin_max_resp_idx[0]
+
+    if spike_LED [0].size ==0: ## no spike is detected for a given current pulse create subthreshold response arrays 
+        print('LED stim ' +str (counter) + ' gave rise to subthreshold event\n')
+        response_type_LED = 'sub_thresh'
+        spike_count_LED = 0
+        subthresh_event_LED = 1
+        voltage_max_LED = V_max
+        voltage_max_LED_idx = resp_time
         LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_1 = ( voltage_max_LED_1_idx -LED_pulse_start_idx) / sampling_rate
-        V_deflection_LED_1 = voltage_max_LED_1 - voltage_baseline_LED 
-        voltage_data_points_LED_1 = voltage_data_LED[0]
-        response_type_LED_1 = 'sub_thresh_event'
-        spike_freq_LED_1  = np.nan
-    
-    else: ## is spike detected extract values 
-        print('LED stim 1 gave rise to Spike(s)')
-        response_type_LED_1 = 'Spike'
-        spike_count_LED_1 = len(spike_LED_1[0])
-        subthresh_event_LED_1 = 0
-        voltage_max_LED_1 = spike_LED_1[1]
-        voltage_max_LED_1_tup = sum(voltage_max_LED_1.items(), ())
-        voltage_max_LED_1_arr = voltage_max_LED_1_tup[1]
-        voltage_max_LED_1 = voltage_max_LED_1_arr[0].tolist() ## extract peak spike value for 1st spike
-        voltage_max_LED_1_idx = spike_LED_1[0] ###
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_1 = (voltage_max_LED_1_idx - LED_pulse_start_idx) / sampling_rate
-        V_resp_delay_LED_1=  V_resp_delay_LED_1[0].tolist() ## extract delay just to the 1st encoutered spike 
-        voltage_data_points_LED_1 = voltage_data_LED[0]
-        V_deflection_LED_1 = voltage_max_LED_1 - voltage_baseline_LED 
-        response_type_LED_1 = 'Spike'
-        spike_freq_LED_1 = get_spike_frequency (spike_LED_1 )
+        V_resp_delay_LED = (voltage_max_LED_idx - LED_pulse_start_idx) / sampling_rate
+        V_deflection_LED = voltage_max_LED - voltage_baseline_LED 
+        response_type_LED = 'sub_thresh_event'
+        spike_freq_LED  = np.nan
         
-
-### LED_stim_2_data
-try:
-    spike_LED_2 = find_peaks(voltage_data_LED[1], height=-30) #find peaks with height over 0mV in array 0 from voltage_data 
-
-except IndexError:
-    spike_LED_2 = 'No LED stim applied' ## if there is no pulse 
-
-if type(spike_LED_2) == str:
-    print ('No LED stim applied')
-    response_type_LED_2 = np.nan
-    spike_count_LED_2 = np.nan
-    subthresh_event_LED_2 = np.nan
-    voltage_max_LED_2 = np.nan
-    V_resp_delay_LED_2 = np.nan
-    V_deflection_LED_2 = np.nan
-    spike_freq_LED_2 = np.nan
-
-else:    
-
-    if spike_LED_2 [0].size ==0: ## no spike is detected for a given current pulse create subthreshold response arrays 
-        print('LED stim 2 gave rise to subthreshold event')
-        response_type_LED_2 = 'sub_thresh'
-        spike_count_LED_2 = 0
-        subthresh_event_LED_2 = 1
-        voltage_max_LED_2 = voltage_max_LED[1]
-        voltage_max_LED_2_idx = opsin_max_resp_idx[1]
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_2 = ( voltage_max_LED_2_idx - LED_pulse_start_idx) / sampling_rate
-        V_deflection_LED_2 = voltage_max_LED_2 - voltage_baseline_LED 
-        voltage_data_points_LED_2 = voltage_data_LED[1]
-        response_type_LED_2 = 'sub_thresh_event'
-        spike_freq_LED_2  = np.nan
+        response_type_LED_all.append(response_type_LED )
+        spike_count_LED_all.append(spike_count_LED)
+        subthresh_event_LED_all.append(subthresh_event_LED)
+        voltage_max_LED_all.append(voltage_max_LED)
+        V_resp_delay_LED_all.append(V_resp_delay_LED)
+        V_deflection_LED_all.append(V_deflection_LED)
+        spike_freq_LED_all.append(spike_freq_LED)
     
     else: ## is spike detected extract values 
-        print('LED stim 2 gave rise to Spike(s)')
-        response_type_LED_2 = 'Spike'
-        spike_count_LED_2 = len(spike_LED_2[0])
-        subthresh_event_LED_2 = 0
-        voltage_max_LED_2 = spike_LED_2[1]
-        voltage_max_LED_2_tup = sum(voltage_max_LED_2.items(), ())
-        voltage_max_LED_2_arr = voltage_max_LED_2_tup[1]
-        voltage_max_LED_2 = voltage_max_LED_2_arr[0].tolist() ## extract peak spike value for 1st spike
-        voltage_max_LED_2_idx = spike_LED_2[0] ###
+        print('LED stim ' +str (counter) + ' gave rise to Spike(s)\n')
+        response_type_LED_1 = 'Spike'
+        spike_count_LED = len(spike_LED[0])
+        subthresh_event_LED = 0
+        voltage_max_LED = spike_LED[1]
+        voltage_max_LED_tup = sum(voltage_max_LED.items(), ())
+        voltage_max_LED_arr = voltage_max_LED_tup[1]
+        voltage_max_LED = voltage_max_LED_arr[0].tolist() ## extract peak spike value for 1st spike
+        voltage_max_LED_idx = spike_LED[0] ###
         LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_2 = (voltage_max_LED_2_idx - LED_pulse_start_idx) / sampling_rate
-        V_resp_delay_LED_2=  V_resp_delay_LED_2[0].tolist() ## extract delay just to the 1st encoutered spike 
-        voltage_data_points_LED_2 = voltage_data_LED[1]
-        V_deflection_LED_2 = voltage_max_LED_2 - voltage_baseline_LED 
-        response_type_LED_2 = 'Spike'
-        spike_freq_LED_2 = get_spike_frequency (spike_LED_2 )
+        V_resp_delay_LED = (voltage_max_LED_idx - LED_pulse_start_idx) / sampling_rate
+        V_resp_delay_LED =  V_resp_delay_LED[0].tolist() ## extract delay just to the 1st encoutered spike 
+        V_deflection_LED = voltage_max_LED - voltage_baseline_LED 
+        response_type_LED = 'Spike'
+        spike_freq_LED = get_spike_frequency (spike_LED)
 
-### LED_stim_3_data
-try:
-    spike_LED_3 = find_peaks(voltage_data_LED[2], height=-30) #find peaks with height over 0mV in array 0 from voltage_data 
+        response_type_LED_all.append(response_type_LED )
+        spike_count_LED_all.append(spike_count_LED)
+        subthresh_event_LED_all.append(subthresh_event_LED)
+        voltage_max_LED_all.append(voltage_max_LED)
+        V_resp_delay_LED_all.append(V_resp_delay_LED)
+        V_deflection_LED_all.append(V_deflection_LED)
+        spike_freq_LED_all.append(spike_freq_LED)
 
-except IndexError:
-    spike_LED_3 = 'No LED stim applied' ## if there is no pulse 
-
-if type(spike_LED_3) == str:
-    print ('No LED stim applied')
-    response_type_LED_3 = np.nan
-    spike_count_LED_3 = np.nan
-    subthresh_event_LED_3 = np.nan
-    voltage_max_LED_3 = np.nan
-    V_resp_delay_LED_3 = np.nan
-    V_deflection_LED_3 = np.nan
-    spike_freq_LED_3 = np.nan
-
-else:    
-
-    if spike_LED_3 [0].size ==0: ## no spike is detected for a given current pulse create subthreshold response arrays 
-        print('LED stim 3 gave rise to subthreshold event')
-        response_type_LED_3 = 'sub_thresh'
-        spike_count_LED_3 = 0
-        subthresh_event_LED_3 = 1
-        voltage_max_LED_3 = voltage_max_LED[2]
-        voltage_max_LED_3_idx = opsin_max_resp_idx[2]
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_3 = ( voltage_max_LED_3_idx - LED_pulse_start_idx) / sampling_rate
-        V_deflection_LED_3 = voltage_max_LED_3 - voltage_baseline_LED 
-        voltage_data_points_LED_3 = voltage_data_LED[2]
-        response_type_LED_3 = 'sub_thresh_event'
-        spike_freq_LED_3  = np.nan
-    
-    else: ## is spike detected extract values 
-        print('LED stim 3 gave rise to Spike(s)')
-        response_type_LED_3 = 'Spike'
-        spike_count_LED_3 = len(spike_LED_3[0])
-        subthresh_event_LED_3 = 0
-        voltage_max_LED_3 = spike_LED_3[1]
-        voltage_max_LED_3_tup = sum(voltage_max_LED_3.items(), ())
-        voltage_max_LED_3_arr = voltage_max_LED_3_tup[1]
-        voltage_max_LED_3 = voltage_max_LED_3_arr[0].tolist() ## extract peak spike value for 1st spike
-        voltage_max_LED_3_idx = spike_LED_3[0] ###
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_3 = (voltage_max_LED_3_idx - LED_pulse_start_idx) / sampling_rate
-        V_resp_delay_LED_3 =  V_resp_delay_LED_3[0].tolist() ## extract delay just to the 1st encoutered spike 
-        voltage_data_points_LED_3 = voltage_data_LED[2]
-        V_deflection_LED_3 = voltage_max_LED_3 - voltage_baseline_LED 
-        response_type_LED_3 = 'Spike'
-        spike_freq_LED_3 = get_spike_frequency (spike_LED_3 )
-
-### LED_stim_4_data
-try:
-    spike_LED_4 = find_peaks(voltage_data_LED[3], height=-30) #find peaks with height over 0mV in array 0 from voltage_data 
-
-except IndexError:
-    spike_LED_4 = 'No LED stim applied' ## if there is no pulse 
-
-if type(spike_LED_4) == str:
-    print ('No LED stim applied')
-    response_type_LED_4 = np.nan
-    spike_count_LED_4 = np.nan
-    subthresh_event_LED_4 = np.nan
-    voltage_max_LED_4 = np.nan
-    V_resp_delay_LED_4 = np.nan
-    V_deflection_LED_4 = np.nan
-    spike_freq_LED_4 = np.nan
-
-else:    
-
-    if spike_LED_4 [0].size ==0: ## no spike is detected for a given current pulse create subthreshold response arrays 
-        print('LED stim 4 gave rise to subthreshold event')
-        response_type_LED_4 = 'sub_thresh'
-        spike_count_LED_4 = 0
-        subthresh_event_LED_4 = 1
-        voltage_max_LED_4 = voltage_max_LED[3]
-        voltage_max_LED_4_idx = opsin_max_resp_idx[3]
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_4 = ( voltage_max_LED_4_idx - LED_pulse_start_idx) / sampling_rate
-        V_deflection_LED_4 = voltage_max_LED_4 - voltage_baseline_LED 
-        voltage_data_points_LED_4 = voltage_data_LED[3]
-        response_type_LED_4 = 'sub_thresh_event'
-        spike_freq_LED_4  = np.nan
-    
-    else: ## is spike detected extract values 
-        print('LED stim 4 gave rise to Spike(s)')
-        response_type_LED_4 = 'Spike'
-        spike_count_LED_4 = len(spike_LED_4[0])
-        subthresh_event_LED_4 = 0
-        voltage_max_LED_4 = spike_LED_4[1]
-        voltage_max_LED_4_tup = sum(voltage_max_LED_4.items(), ())
-        voltage_max_LED_4_arr = voltage_max_LED_4_tup[1]
-        voltage_max_LED_4 = voltage_max_LED_4_arr[0].tolist() ## extract peak spike value for 1st spike
-        voltage_max_LED_4_idx = spike_LED_4[0] ###
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_4 = (voltage_max_LED_4_idx - LED_pulse_start_idx) / sampling_rate
-        V_resp_delay_LED_4 =  V_resp_delay_LED_4[0].tolist() ## extract delay just to the 1st encoutered spike 
-        voltage_data_points_LED_4 = voltage_data_LED[3]
-        V_deflection_LED_4 = voltage_max_LED_4 - voltage_baseline_LED 
-        response_type_LED_4 = 'Spike'
-        spike_freq_LED_4 = get_spike_frequency (spike_LED_4 )
-
-
-### LED_stim_5_data        
-try:
-    spike_LED_5 = find_peaks(voltage_data_LED[4], height=-30) #find peaks with height over 0mV in array 0 from voltage_data 
-except IndexError:
-    spike_LED_5 = 'No LED stim applied' ## if there is no pulse 
-   
-if type(spike_LED_5) == str:
-    print ('No LED stim applied')
-    response_type_LED_5 = np.nan
-    spike_count_LED_5 = np.nan
-    subthresh_event_LED_5 = np.nan
-    voltage_max_LED_5 = np.nan
-    V_resp_delay_LED_5 = np.nan
-    V_deflection_LED_5 = np.nan
-    spike_freq_LED_5 = np.nan
-
-else:   
-    
-    if spike_LED_5[0].size ==0: ## no spike is detected for a given current pulse create subthreshold response arrays 
-        print('LED stim 5 gave rise to subthreshold event')
-        response_type_LED_5 = 'sub_thresh'
-        spike_count_LED_5 = 0
-        subthresh_event_LED_5 = 1
-        voltage_max_LED_5 = voltage_max_LED[4]
-        voltage_max_LED_5_idx = opsin_max_resp_idx[4]
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_5 = ( voltage_max_LED_5_idx - LED_pulse_start_idx) / sampling_rate
-        V_deflection_LED_5 = voltage_max_LED_5 - voltage_baseline_LED 
-        voltage_data_points_LED_5 = voltage_data_LED[4]
-        response_type_LED_5 = 'sub_thresh_event'
-        spike_freq_LED_5  = np.nan
-    
-    else: ## is spike detected extract values 
-        print('LED stim 5 gave rise to Spike(s)')
-        response_type_LED_5 = 'Spike'
-        spike_count_LED_5 = len(spike_LED_5[0])
-        subthresh_event_LED_5 = 0
-        voltage_max_LED_5 = spike_LED_5[1]
-        voltage_max_LED_5_tup = sum(voltage_max_LED_5.items(), ())
-        voltage_max_LED_5_arr = voltage_max_LED_5_tup[1]
-        voltage_max_LED_5 = voltage_max_LED_5_arr[0].tolist() ## extract peak spike value for 1st spike
-        voltage_max_LED_5_idx = spike_LED_5[0] ###
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_5 = (voltage_max_LED_5_idx - LED_pulse_start_idx) / sampling_rate
-        V_resp_delay_LED_5 =  V_resp_delay_LED_5[0].tolist() ## extract delay just to the 1st encoutered spike 
-        voltage_data_points_LED_5 = voltage_data_LED[4]
-        V_deflection_LED_5 = voltage_max_LED_5 - voltage_baseline_LED 
-        response_type_LED_5 = 'Spike'
-        spike_freq_LED_5 = get_spike_frequency (spike_LED_5 )
-        
-
-### LED_stim_6_data        
-try:
-    spike_LED_6 = find_peaks(voltage_data_LED[5], height=-30) #find peaks with height over 0mV in array 0 from voltage_data 
-except IndexError:
-    spike_LED_6 = 'No LED stim applied' ## if there is no pulse 
-   
-if type(spike_LED_6) == str:
-    print ('No LED stim applied')
-    response_type_LED_6 = np.nan
-    spike_count_LED_6 = np.nan
-    subthresh_event_LED_6 = np.nan
-    voltage_max_LED_6 = np.nan
-    V_resp_delay_LED_6 = np.nan
-    V_deflection_LED_6 = np.nan
-    spike_freq_LED_6 = np.nan
-
-else:   
-    
-    if spike_LED_6[0].size ==0: ## no spike is detected for a given current pulse create subthreshold response arrays 
-        print('LED stim 6 gave rise to subthreshold event')
-        response_type_LED_6 = 'sub_thresh'
-        spike_count_LED_6 = 0
-        subthresh_event_LED_6 = 1
-        voltage_max_LED_6 = voltage_max_LED[5]
-        voltage_max_LED_6_idx = opsin_max_resp_idx[5]
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_6 = ( voltage_max_LED_6_idx - LED_pulse_start_idx) / sampling_rate
-        V_deflection_LED_6 = voltage_max_LED_6 - voltage_baseline_LED 
-        voltage_data_points_LED_6 = voltage_data_LED[5]
-        response_type_LED_6 = 'sub_thresh_event'
-        spike_freq_LED_6  = np.nan
-    
-    else: ## is spike detected extract values 
-        print('LED stim 6 gave rise to Spike(s)')
-        response_type_LED_6 = 'Spike'
-        spike_count_LED_6 = len(spike_LED_6[0])
-        subthresh_event_LED_6 = 0
-        voltage_max_LED_6 = spike_LED_6[1]
-        voltage_max_LED_6_tup = sum(voltage_max_LED_6.items(), ())
-        voltage_max_LED_6_arr = voltage_max_LED_6_tup[1]
-        voltage_max_LED_6 = voltage_max_LED_6_arr[0].tolist() ## extract peak spike value for 1st spike
-        voltage_max_LED_6_idx = spike_LED_6[0] ###
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_6 = (voltage_max_LED_6_idx - LED_pulse_start_idx) / sampling_rate
-        V_resp_delay_LED_6 =  V_resp_delay_LED_6[0].tolist() ## extract delay just to the 1st encoutered spike 
-        voltage_data_points_LED_6 = voltage_data_LED[5]
-        V_deflection_LED_6 = voltage_max_LED_6 - voltage_baseline_LED 
-        response_type_LED_6 = 'Spike'
-        spike_freq_LED_6 = get_spike_frequency (spike_LED_6 )
-
-### LED_stim_7_data        
-try:
-    spike_LED_7 = find_peaks(voltage_data_LED[6], height=-30) #find peaks with height over 0mV in array 0 from voltage_data 
-except IndexError:
-    spike_LED_7 = 'No LED stim applied' ## if there is no pulse 
-   
-if type(spike_LED_7) == str:
-    print ('No LED stim applied')
-    response_type_LED_7 = np.nan
-    spike_count_LED_7 = np.nan
-    subthresh_event_LED_7 = np.nan
-    voltage_max_LED_7 = np.nan
-    V_resp_delay_LED_7 = np.nan
-    V_deflection_LED_7 = np.nan
-    spike_freq_LED_7 = np.nan
-
-
-else:   
-    
-    if spike_LED_7[0].size ==0: ## no spike is detected for a given current pulse create subthreshold response arrays 
-        print('LED stim 7 gave rise to subthreshold event')
-        response_type_LED_7 = 'sub_thresh'
-        spike_count_LED_7 = 0
-        subthresh_event_LED_7 = 1
-        voltage_max_LED_7 = voltage_max_LED[6]
-        voltage_max_LED_7_idx = opsin_max_resp_idx[6]
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_7 = ( voltage_max_LED_7_idx - LED_pulse_start_idx) / sampling_rate
-        V_deflection_LED_7 = voltage_max_LED_7 - voltage_baseline_LED 
-        voltage_data_points_LED_7 = voltage_data_LED[6]
-        response_type_LED_7 = 'sub_thresh_event'
-        spike_freq_LED_7  = np.nan
-    
-    else: ## is spike detected extract values 
-        print('LED stim 7 gave rise to Spike(s)')
-        response_type_LED_7 = 'Spike'
-        spike_count_LED_7 = len(spike_LED_7[0])
-        subthresh_event_LED_7 = 0
-        voltage_max_LED_7 = spike_LED_7[1]
-        voltage_max_LED_7_tup = sum(voltage_max_LED_7.items(), ())
-        voltage_max_LED_7_arr = voltage_max_LED_7_tup[1]
-        voltage_max_LED_7 = voltage_max_LED_7_arr[0].tolist() ## extract peak spike value for 1st spike
-        voltage_max_LED_7_idx = spike_LED_7[0] ###
-        LED_pulse_start_idx = 1999  ## because I added 100ms worth of data before each pulse 
-        V_resp_delay_LED_7 = (voltage_max_LED_7_idx - LED_pulse_start_idx) / sampling_rate
-        V_resp_delay_LED_7 =  V_resp_delay_LED_7[0].tolist() ## extract delay just to the 1st encoutered spike 
-        voltage_data_points_LED_7 = voltage_data_LED[6]
-        V_deflection_LED_7 = voltage_max_LED_7 - voltage_baseline_LED 
-        response_type_LED_7 = 'Spike'
-        spike_freq_LED_7 = get_spike_frequency (spike_LED_7 )
-
-
-
-max_list_index = len(LED_data)
-
-response_type_LED_all = [response_type_LED_1, response_type_LED_2, response_type_LED_3, response_type_LED_4, response_type_LED_5, response_type_LED_6, response_type_LED_7]
-del response_type_LED_all [max_list_index:7]
-
-spike_count_LED_all = [spike_count_LED_1, spike_count_LED_2, spike_count_LED_3, spike_count_LED_4, spike_count_LED_5, spike_count_LED_6, spike_count_LED_7]
-del spike_count_LED_all [max_list_index:7]
 
 spike_count_total_LED_trace = sum(spike_count_LED_all)
-
-subthresh_event_LED_all = [subthresh_event_LED_1, subthresh_event_LED_2, subthresh_event_LED_3, subthresh_event_LED_4, subthresh_event_LED_5, subthresh_event_LED_6, subthresh_event_LED_7]
-del subthresh_event_LED_all [max_list_index:7]
-
-spike_freq_LED_all = [spike_freq_LED_1, spike_freq_LED_2, spike_freq_LED_3, spike_freq_LED_4, spike_freq_LED_5, spike_freq_LED_6, spike_freq_LED_7 ]
-del spike_freq_LED_all [max_list_index:7]  
-
-V_resp_delay_LED_all = [ V_resp_delay_LED_1,  V_resp_delay_LED_2,  V_resp_delay_LED_3,  V_resp_delay_LED_4,  V_resp_delay_LED_5,  V_resp_delay_LED_6,  V_resp_delay_LED_7]
-del V_resp_delay_LED_all [max_list_index:7]  
-
-
-if cell_type_selected == 'GtACR1' or cell_type_selected == 'GtACR2':
-    voltage_max_LED_all = list(map(max, voltage_data_LED)) #get list of all current min values per pulse (need to be min since this is VC) also inward excitatory current for these 2 inhibitory opsins 
-else:
-    voltage_max_LED_all = list(map(min, voltage_data_LED))
-
-V_deflection_LED_all = voltage_max_LED_all - voltage_baseline_LED 
-
 
 ### extract tau off value from steady to baseline
 
@@ -715,9 +395,6 @@ trace_data_LED = pd.DataFrame({'trace_number':file_name ,
 
 trace_data_master = trace_data_LED
 
-### save data status 
-
-
 ### save individual file
 data_final_df = trace_data_master ## date data_final array and transform into transposed dataframe
 data_final_df.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/' + str(file_name) +'.csv', header = True) ## write file as individual csv file 
@@ -745,6 +422,9 @@ CC_opsin_inhibitory_master = CC_opsin_inhibitory_master.append(trace_data_master
 ## save new version of updated dataframe as csv
 CC_opsin_inhibitory_master.to_csv('/Users/adna.dumitrescu/Documents/Wyart_Postdoc/Data/OPSIN_testing_project/Opsin_Ephys_Analysis/CC_analysis/CC_opsin_inhibitory_master.csv', header = True)
 
+
+
+
 #### plot figure of LED stim + response 
 
 ## create arrays for sample data to be plotted  
@@ -757,7 +437,7 @@ time_points_plot = [time_points_plot] * len(voltage_data_LED)
 
 
 fig1 = plt.figure(figsize =(30,5))
-fig1.subplots_adjust(wspace=0.5)
+fig1.subplots_adjust(wspace=0.3)
 
 for counter, (voltage, time, power) in enumerate (zip (voltage_data_plot, time_points_plot, LED_power_pulse), start = 1): 
     sub = plt.subplot(2,len(voltage_data_LED),counter)
@@ -767,9 +447,8 @@ for counter, (voltage, time, power) in enumerate (zip (voltage_data_plot, time_p
     sub.spines['bottom'].set_color('black')
     sub.set_title(power + ' mW/mm2', color = '0.2')
     plt.setp(sub.get_xticklabels(), visible = True)
-    plt.xlabel('Time (ms)')
+    plt.xlabel('Time (ms)\n Magenta Dots = LED ON/OFF')
     plt.ylabel('Photocurrent (pA)')
-    plt.text (1500, -70, 'LED ON/OFF', ha='center', color='magenta')
     plt.suptitle('Example opsin induced voltage deflections from this trace', fontsize=16)
 
     sns.despine()

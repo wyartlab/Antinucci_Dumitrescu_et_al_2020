@@ -507,144 +507,35 @@ CC_inhibitory_long_pulse.to_csv('Analysis_output/CC_inhibitory_long_pulse.csv', 
 
 
 #### plot individual LED stim 
-##check for data existance and extract single rows for LED stim + current resp (done for a max of 7 stim per trace)
 
-## data pulse and response 1
-if (LED_data_df.index == 0).any() & (voltage_data_LED_df.index == 0).any():
-    LED_stim_1 = LED_data_df.iloc[0]
-    voltage_resp_1 = voltage_data_LED_df.iloc[0]
-    title_1 = str(LED_power_pulse[0]) + 'mW/mm2'
-else:
-    LED_stim_1 = np.repeat(np.nan,len(LED_data[0]))
-    voltage_resp_1 = np.repeat(np.nan,len(current_data_LED[0]))
-    title_1 = 'No LED stim applied'
-    
-## data pulse and response 2
-if (LED_data_df.index == 1).any() & (voltage_data_LED_df.index ==1).any():
-    LED_stim_2 = LED_data_df.iloc[1]
-    voltage_resp_2 = voltage_data_LED_df.iloc[1]
-    title_2 = str(LED_power_pulse[1]) + 'mW/mm2'
-else:
-    LED_stim_2 = np.repeat(np.nan,len(LED_data[0]))
-    voltage_resp_2 = np.repeat(np.nan,len(current_data_LED[0]))
-    title_2 = 'No LED stim applied'
-    
-## data pulse and response 3
-if (LED_data_df.index == 2).any() & (voltage_data_LED_df.index ==2).any():
-    LED_stim_3 = LED_data_df.iloc[2]
-    voltage_resp_3 = voltage_data_LED_df.iloc[2]
-    title_3 = str(LED_power_pulse[2]) + 'mW/mm2'
-else:
-    LED_stim_3 = np.repeat(np.nan,len(LED_data[0]))
-    voltage_resp_3 = np.repeat(np.nan,len(current_data_LED[0]))
-    title_3 = 'No LED stim applied'
+## extract data for plot 
+LED_expand_idx_plot =[np.concatenate([ [x[0]-i-1 for i in reversed(range(4000))], x, [x[-1]+i+1 for i in range(4000)] ]) for x in LED_idx_cons] ### add 5ms pre LED start and 100ms after .  
+voltage_data_plot = [voltage_trace [i] for i in LED_expand_idx_plot]
 
-## data pulse and response 4
-if (LED_data_df.index == 3).any() & (voltage_data_LED_df.index ==3).any():
-    LED_stim_4 = LED_data_df.iloc[3]
-    voltage_resp_4 = voltage_data_LED_df.iloc[3]
-    title_4 = str(LED_power_pulse[3]) + 'mW/mm2'
-else:
-    LED_stim_4 = np.repeat(np.nan,len(LED_data[0]))
-    voltage_resp_4 = np.repeat(np.nan,len(current_data_LED[0]))
-    title_4 = 'No LED stim applied'
+time_points_plot = (np.arange(len(voltage_data_plot[0]))*abf.dataSecPerPoint) * 1000
+time_points_plot = [time_points_plot] * len(voltage_data_LED)
 
-## data pulse and response 5
-if (LED_data_df.index == 4).any() & (voltage_data_LED_df.index ==4).any():
-    LED_stim_5 = LED_data_df.iloc[4]
-    voltage_resp_5 = voltage_data_LED_df.iloc[4]
-    title_5 = str(LED_power_pulse[4]) + 'mW/mm2'
-else:
-    LED_stim_5 = np.repeat(np.nan,len(LED_data[0]))
-    voltage_resp_5 = np.repeat(np.nan,len(current_data_LED[0]))
-    title_5 = 'No LED stim applied'
+LED_stim_time = LED_time * sampling_rate
+end_of_pulse = LED_stim_time + 4000
+end_of_pulse = end_of_pulse[0]
+end_of_pulse = int(end_of_pulse)
 
-## data pulse and response 6
-if (LED_data_df.index == 5).any() & (voltage_data_LED_df.index ==5).any():
-    LED_stim_6 = LED_data_df.iloc[5]
-    voltage_resp_6 = voltage_data_LED_df.iloc[5]
-    title_6 = str(LED_power_pulse[5]) + 'mW/mm2'
-else:
-    LED_stim_6 = np.repeat(np.nan,len(LED_data[0]))
-    voltage_resp_6 = np.repeat(np.nan,len(current_data_LED[0]))
-    title_6 = 'No LED stim applied'
-     
-## data pulse and response 7
-if (LED_data_df.index == 6).any() & (voltage_data_LED_df.index == 6).any():
-    LED_stim_7 = LED_data_df.iloc[6]
-    voltage_resp_7 = voltage_data_LED_df.iloc[6]
-    title_7 = str(LED_power_pulse[6]) + 'mW/mm2'
-else:
-    LED_stim_7 = np.repeat(np.nan,len(LED_data[0]))
-    voltage_resp_7 = np.repeat(np.nan,len(current_data_LED[0]))
-    title_7 = 'No LED stim applied'
-    
-#### plot figure of LED stim + response 
- 
- 
-LED_power = LED_power_pulse.tolist()
 
-for n, p in zip (LED_I_spike, LED_power):
-        if n > 0:
-           print('For a stimulation of ' + str(p) + ' mW/mm2 there are still ' +str(n) + ' spikes present during LED stimulation')
-        else:
-            print ('All spikes present during LED stimulation were inhibited')
-        
 
-fig2 = plt.figure(figsize =(20,5))
-sub1 = plt.subplot(2,7,1)
-sub1.plot(voltage_resp_1, linewidth=0.3, color = '0.2')
-sub1.set_title(title_1, color = '0.2')
-sub1.tick_params(axis='x', colors='white')
-sub1.spines['bottom'].set_color('white')
-plt.setp(sub1.get_xticklabels(), visible = False)
-sns.despine()
+#### create plot here 
+fig1 = plt.figure(figsize =(40,5))
+fig1.subplots_adjust(wspace=0.3)
 
-sub2 = plt.subplot(2,7,2)
-sub2.plot(voltage_resp_2, linewidth=0.3, color = '0.2')
-sub2.set_title(title_2, color = '0.2')
-sub2.tick_params(axis='x', colors='white')
-sub2.spines['bottom'].set_color('white')
-plt.setp(sub2.get_xticklabels(), visible = False)
-sns.despine()
+for counter, (voltage, time, power) in enumerate (zip (voltage_data_plot, time_points_plot, LED_power_pulse), start = 1): 
+    sub = plt.subplot(2,len(voltage_data_LED),counter)
+    markers_on = [4000, end_of_pulse ]
+    sub.plot (time, voltage, '-om', markevery = markers_on, markerfacecolor="m", markeredgecolor = 'w', linewidth=0.3, color = '0.2')
+    sub.tick_params (axis = 'x', colors='black') 
+    sub.spines['bottom'].set_color('black')
+    sub.set_title(power + ' mW/mm2', color = '0.2')
+    plt.setp(sub.get_xticklabels(), visible = True)
+    plt.xlabel('Time (ms)\n Magenta Dots = LED ON/OFF')
+    plt.ylabel('Photocurrent (pA)')
+    plt.suptitle('Example opsin induced voltage deflections from this trace', fontsize=16)
 
-sub3 = plt.subplot(2,7,3)
-sub3.plot(voltage_resp_3, linewidth=0.3, color = '0.2')
-sub3.set_title(title_3, color = '0.2')
-sub3.tick_params(axis='x', colors='white')
-sub3.spines['bottom'].set_color('white')
-plt.setp(sub3.get_xticklabels(), visible = False)
-sns.despine()
-
-sub4 = plt.subplot(2,7,4)
-sub4.plot(voltage_resp_4, linewidth=0.3, color = '0.2')
-sub4.set_title(title_4, color = '0.2')
-sub4.tick_params(axis='x', colors='white')
-sub4.spines['bottom'].set_color('white')
-plt.setp(sub4.get_xticklabels(), visible = False)
-sns.despine()
-
-sub5 = plt.subplot(2,7,5)
-sub5.plot(voltage_resp_5, linewidth=0.3, color = '0.2')
-sub5.set_title(title_5, color = '0.2')
-sub5.tick_params(axis='x', colors='white')
-sub5.spines['bottom'].set_color('white')
-plt.setp(sub5.get_xticklabels(), visible = False)
-sns.despine()
-
-sub6 = plt.subplot(2,7,6)
-sub6.plot(voltage_resp_6, linewidth=0.3, color = '0.2')
-sub6.set_title(title_6, color = '0.2')
-sub6.tick_params(axis='x', colors='white')
-sub6.spines['bottom'].set_color('white')
-plt.setp(sub6.get_xticklabels(), visible = False)
-sns.despine()
-
-sub7 = plt.subplot(2,7,7)
-sub7.plot(voltage_resp_7, linewidth=0.3, color = '0.2')
-sub7.set_title(title_7, color = '0.2')
-sub7.tick_params(axis='x', colors='white')
-sub7.spines['bottom'].set_color('white')
-plt.setp(sub7.get_xticklabels(), visible = False)
-sns.despine()
-
+    sns.despine()
