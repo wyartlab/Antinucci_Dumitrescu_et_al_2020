@@ -9,6 +9,7 @@ As an overview the following figures (both main and supplemental) from the paper
 **Fig 9:** Inhibitory_Opsin_Current_Clamp, Inhibitory_Opsin_CC_Short_AP_Inhibit, Inhibitory_Opsin_CC_Long_AP_Inhibit
 
 ### Folder organisation:
+Due to script and path dependencies it is important to maintain the current folder nomenclature and organisation.  
 All the scripts except Gapfree_AP_stim are dependant on the functions: *exponentialFitGetTau* & *exponentialFitGetTauInhibitory* (details within scripts) and the 2 excel files *Rig_1_LED_power* & *Rig_2_LED_power*. For this reason these 4 files need to be in same location as the python analysis scripts.\
 The *Sample_data* folder contains several .abf files that can be used to test every script. The details of each .abf file and which script it can be used with are in the *Sample_data_info* excel sheet.\
 The *Analysis_output* folder contains the data extracted organised per script type. For the analysis to run correctly, this folder also needs to be present in the same location as the .py files
@@ -16,13 +17,13 @@ The *Analysis_output* folder contains the data extracted organised per script ty
 ### Data Analysis:
 
 #### 1 Prepare python enviroment 
-The scripts are using additional packages which need to be present. Please install them using your favourite method (pip, anaconda etc) if they are not already part of your instalation:\
-numpy  https://numpy.org \
-matplotlib https://matplotlib.org \
-seaborn  https://seaborn.pydata.org \
-pyabf  https://pypi.org/project/pyabf/ \
-pandas https://pandas.pydata.org \
-scipy https://www.scipy.org
+The current scripts were run with Python 3.6.6 in Spyder 3.6 and are dependant on several additional packages which need to be present. Please install them using your favourite method (pip, anaconda etc) if they are not already part of your instalation:\
+numpy 1.16.2  https://numpy.org \
+matplotlib 3.0.2 https://matplotlib.org \
+seaborn 0.9.0 https://seaborn.pydata.org \
+pyabf 2.1.6  https://pypi.org/project/pyabf/ \
+pandas 0.24.1 https://pandas.pydata.org \
+scipy 1.3.0 https://www.scipy.org
 
 #### 2 Select trace to analyse 
 Open the *Sample_data_info* excel sheet which is in the *Sample_data* folder and select one trace for analysis. 
